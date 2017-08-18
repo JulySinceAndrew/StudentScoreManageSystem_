@@ -31,7 +31,8 @@ Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
     set_studenttable_visible(false);
     ui->table->setVisible(false);
     //open_student_file();
-    open_teacher_file();
+    //open_teacher_file();
+    open_lesson_file();
 
 }
 
@@ -175,6 +176,54 @@ void Manager_MainWindow::open_teacher_file()
         delete []name;
     }
 
+}
+
+void Manager_MainWindow::open_lesson_file()
+{
+    QString prefix="les_";
+    QString houzhui=".bin";
+    QString filename;
+    fstream fin;
+    fstream finles;
+    fin.open("lessonlist.bin",ios_base::in);
+    int count;
+    long fileid;
+    fin.read((char*)(&count),4);
+    for(int i=0;i<count;i++)
+    {
+        fin.read((char*)(&fileid),sizeof(long));qDebug()<<fileid;
+        ostringstream *os=new ostringstream;
+        *os<<fileid;
+        QString  s=QString::fromStdString(os->str());
+        filename=prefix+s+houzhui;
+        finles.open(filename.toStdString(),ios_base::in);
+        char* name;
+        int size;
+        finles.read((char*)(&size),4);qDebug()<<size;
+        name=new char[size+1];
+        finles.read(name,size);
+        name[size]='\0';
+        long id;
+        finles.read((char*)(&id),sizeof(long));
+        int credit;
+        finles.read((char*)(&credit),sizeof(int));
+        long teaid;
+        finles.read((char*)(&teaid),sizeof(long));
+        lesson.add(Lesson(id,name,credit,teaid));
+        int n;
+        finles.read((char*)(&n),sizeof(int));
+        long stuid;
+        int scores;
+        for(int i=0;i<n;i++)
+        {
+            finles.read((char*)(&stuid),sizeof(long));
+            finles.read((char*)(&scores),sizeof(int));
+            lesson[i].stuscore.add(score(stuid,scores));
+        }
+        qDebug()<<"asdasd"<<lesson[i].ID()<<lesson[i].name()<<lesson[i].credit()<<lesson[i].teacherID();
+        finles.close();
+        delete []name;
+    }
 }
 
 QString Manager_MainWindow::long_to_qstr(long n)

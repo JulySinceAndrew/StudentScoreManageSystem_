@@ -20,7 +20,7 @@ private:
     long _teacherID;
     int _credit;
 public:
-    Vector<score> score;
+    Vector<score> stuscore;
     Lesson(long id,QString _name,int c,long teacherid);
     Lesson();
     ~Lesson();

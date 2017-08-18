@@ -59,6 +59,7 @@ private:
     void open_file();
     void open_student_file();
     void open_teacher_file();
+    void open_lesson_file();
     QString long_to_qstr(long n);
 
 };

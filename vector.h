@@ -28,7 +28,7 @@ void Vector<T>::enlarge()
     T* temp=new T[_max];
     for(int i=0;i<_now;i++)
         temp[i]=value[i];
-    delete value;
+    delete[] value;
     value=temp;
 }
 
