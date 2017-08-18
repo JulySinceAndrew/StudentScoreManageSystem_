@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Manager_MainWindow</class>
+ <widget class="QMainWindow" name="Manager_MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label_search">
+    <property name="geometry">
+     <rect>
+      <x>21</x>
+      <y>15</y>
+      <width>48</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>查询(&amp;S)</string>
+    </property>
+    <property name="buddy">
+     <cstring>lineEdit_search</cstring>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_search">
+    <property name="geometry">
+     <rect>
+      <x>66</x>
+      <y>13</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>学号</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>姓名</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_search">
+    <property name="geometry">
+     <rect>
+      <x>137</x>
+      <y>13</y>
+      <width>133</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_search">
+    <property name="geometry">
+     <rect>
+      <x>269</x>
+      <y>11</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>搜索</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_background">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>767</width>
+      <height>523</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="images.qrc">:/image/images/背景.png</pixmap>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_welcome_fixed">
+    <property name="geometry">
+     <rect>
+      <x>62</x>
+      <y>90</y>
+      <width>621</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>华文行楷</family>
+      <pointsize>36</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>欢迎使用学生成绩管理系统！</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_welcome_fixed2">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>260</y>
+      <width>211</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>华文行楷</family>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>您好，亲爱的管理员：</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="table">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>60</y>
+      <width>331</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string>姓名</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>学号</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>性别</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QPushButton" name="pushButton_lookall">
+    <property name="geometry">
+     <rect>
+      <x>635</x>
+      <y>11</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>查看全部</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="table_student">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>100</y>
+      <width>741</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string>课程名</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>课程号</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>任课教师</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>学分</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>成绩</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>等级</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>学分绩</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QTableWidget" name="table_student_total">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>10</y>
+      <width>521</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <row>
+     <property name="text">
+      <string/>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>姓名</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>学号</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>性别</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>平均成绩</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>平均学分绩</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QLabel" name="label_welcome_change">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>260</y>
+      <width>100</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>华文行楷</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>2016011073</string>
+    </property>
+   </widget>
+   <zorder>label_background</zorder>
+   <zorder>label_search</zorder>
+   <zorder>comboBox_search</zorder>
+   <zorder>lineEdit_search</zorder>
+   <zorder>pushButton_search</zorder>
+   <zorder>label_welcome_fixed2</zorder>
+   <zorder>label_welcome_fixed</zorder>
+   <zorder>table</zorder>
+   <zorder>pushButton_lookall</zorder>
+   <zorder>table_student</zorder>
+   <zorder>table_student_total</zorder>
+   <zorder>label_welcome_change</zorder>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar_2">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_student"/>
+   <addaction name="action_teacher"/>
+   <addaction name="action_lesson"/>
+   <addaction name="action_back"/>
+   <addaction name="action_relog"/>
+   <addaction name="action_exit"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar_3">
+   <property name="windowTitle">
+    <string>toolBar_3</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_studentnumber"/>
+   <addaction name="action_score"/>
+   <addaction name="action_setsort"/>
+   <addaction name="separator"/>
+   <addaction name="action_Look"/>
+   <addaction name="action_edit"/>
+   <addaction name="action_New"/>
+   <addaction name="action_deleteobject"/>
+   <addaction name="action_Save"/>
+   <addaction name="separator"/>
+  </widget>
+  <action name="action_student">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/学生.png</normaloff>:/image/images/学生.png</iconset>
+   </property>
+   <property name="text">
+    <string>学生</string>
+   </property>
+  </action>
+  <action name="action_teacher">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/老师.png</normaloff>:/image/images/老师.png</iconset>
+   </property>
+   <property name="text">
+    <string>教师</string>
+   </property>
+  </action>
+  <action name="action_lesson">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/课程.png</normaloff>:/image/images/课程.png</iconset>
+   </property>
+   <property name="text">
+    <string>课程</string>
+   </property>
+  </action>
+  <action name="action_back">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/后退.png</normaloff>:/image/images/后退.png</iconset>
+   </property>
+   <property name="text">
+    <string>后退</string>
+   </property>
+  </action>
+  <action name="action_relog">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/注销.png</normaloff>:/image/images/注销.png</iconset>
+   </property>
+   <property name="text">
+    <string>注销账户</string>
+   </property>
+  </action>
+  <action name="action_exit">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/退出.png</normaloff>:/image/images/退出.png</iconset>
+   </property>
+   <property name="text">
+    <string>退出程序</string>
+   </property>
+  </action>
+  <action name="action_studentnumber">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/学号.png</normaloff>:/image/images/学号.png</iconset>
+   </property>
+   <property name="text">
+    <string>学号排序</string>
+   </property>
+  </action>
+  <action name="action_score">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/成绩.png</normaloff>:/image/images/成绩.png</iconset>
+   </property>
+   <property name="text">
+    <string>成绩排序</string>
+   </property>
+  </action>
+  <action name="action_setsort">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/排序.png</normaloff>:/image/images/排序.png</iconset>
+   </property>
+   <property name="text">
+    <string>设置升/降序</string>
+   </property>
+  </action>
+  <action name="action_deleteobject">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/删除.png</normaloff>:/image/images/删除.png</iconset>
+   </property>
+   <property name="text">
+    <string>删除本栏全部信息</string>
+   </property>
+  </action>
+  <action name="action_New">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/新增.png</normaloff>:/image/images/新增.png</iconset>
+   </property>
+   <property name="text">
+    <string>新增</string>
+   </property>
+  </action>
+  <action name="action_edit">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/编辑.png</normaloff>:/image/images/编辑.png</iconset>
+   </property>
+   <property name="text">
+    <string>编辑</string>
+   </property>
+  </action>
+  <action name="action_Save">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/保存.png</normaloff>:/image/images/保存.png</iconset>
+   </property>
+   <property name="text">
+    <string>保存</string>
+   </property>
+  </action>
+  <action name="action_Look">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/image/images/查看.png</normaloff>:/image/images/查看.png</iconset>
+   </property>
+   <property name="text">
+    <string>查看</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

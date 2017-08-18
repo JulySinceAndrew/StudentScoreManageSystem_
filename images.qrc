@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/image">
+        <file>images/成绩.png</file>
+        <file>images/后退.png</file>
+        <file>images/课程.png</file>
+        <file>images/老师.png</file>
+        <file>images/排序.png</file>
+        <file>images/退出.png</file>
+        <file>images/学号.png</file>
+        <file>images/学生.png</file>
+        <file>images/注销.png</file>
+        <file>images/删除.png</file>
+        <file>images/背景.png</file>
+        <file>images/新增.png</file>
+        <file>images/保存.png</file>
+        <file>images/编辑.png</file>
+        <file>images/查看.png</file>
+    </qresource>
+</RCC>
