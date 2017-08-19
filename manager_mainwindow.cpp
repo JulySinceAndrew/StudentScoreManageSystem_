@@ -111,6 +111,118 @@ void Manager_MainWindow::set_table_visivle(bool arg)
     }*/
 }
 
+void Manager_MainWindow::set_student_editable(bool arg)
+{
+    QLineEdit* lineedit;
+    lineedit=(QLineEdit*)ui->table_student_total->cellWidget(0,0);
+    lineedit->setReadOnly(!arg);
+    QComboBox* combobox;
+    combobox=(QComboBox*)ui->table_student_total->cellWidget(0,2);
+    combobox->setEnabled(arg);
+    for(int i=0;i<ui->table_student->rowCount();i++)
+    {
+        lineedit=(QLineEdit*)ui->table_student->cellWidget(i,4);
+        lineedit->setReadOnly(!arg);
+    }
+}
+
+void Manager_MainWindow::set_teacher_editable(bool arg)
+{
+    QLineEdit* lineedit;
+    lineedit=(QLineEdit*)ui->table_teacher_total->cellWidget(0,0);
+    lineedit->setReadOnly(!arg);
+    QComboBox* combobox;
+    combobox=(QComboBox*)ui->table_teacher_total->cellWidget(0,2);
+    combobox->setEnabled(arg);
+}
+
+void Manager_MainWindow::set_lesson_editable(bool arg)
+{
+    QLineEdit* lineedit;
+    lineedit=(QLineEdit*)ui->table_lesson_total->cellWidget(0,0);
+    lineedit->setReadOnly(!arg);
+    lineedit=(QLineEdit*)ui->table_lesson_total->cellWidget(3,0);
+    lineedit->setReadOnly(!arg);
+    lineedit=(QLineEdit*)ui->table_lesson_total->cellWidget(4,0);
+    lineedit->setReadOnly(!arg);
+    for(int i=0;i<ui->table_lesson->rowCount();i++)
+    {
+        lineedit=(QLineEdit*)ui->table_lesson->cellWidget(i,2);
+        lineedit->setReadOnly(!arg);
+    }
+}
+
+void Manager_MainWindow::update_student()
+{
+    QLineEdit* lineedit;
+    lineedit=(QLineEdit*)ui->table_student_total->cellWidget(0,0);
+    student_object->set_name(lineedit->text());
+    QComboBox* combobox;
+    combobox=(QComboBox*)ui->table_student_total->cellWidget(0,2);
+    if(combobox->currentIndex()==0)
+        student_object->set_sex(man);
+    else
+        student_object->set_sex(woman);
+    for(int i=0;i<ui->table_student->rowCount();i++)
+    {
+        lineedit=(QLineEdit*)ui->table_student->cellWidget(i,1);
+        Lesson& lesnow=lesson(qstr_to_long(lineedit->text()));
+        lineedit=(QLineEdit*)ui->table_student->cellWidget(i,4);
+        for(int j=0;j<lesnow.stuscore.count();j++)
+        {
+            if(lesnow.stuscore[j].studentID==student_object->ID())
+            {
+                lesnow.stuscore[j]._score=qstr_to_int(lineedit->text());
+                break;
+            }
+        }
+    }
+}
+
+void Manager_MainWindow::update_teacher()
+{
+    QLineEdit* lineedit=(QLineEdit*)ui->table_teacher_total->cellWidget(0,0);
+    teacher_object->set_name(lineedit->text());
+    QComboBox* com=(QComboBox*)ui->table_teacher_total->cellWidget(0,2);
+    if(com->currentIndex()==0)
+        teacher_object->set_sex(man);
+    else
+        teacher_object->set_sex(woman);
+}
+
+void Manager_MainWindow::update_lesson()
+{
+    QLineEdit* lineedit;
+    lineedit=(QLineEdit*)ui->table_lesson_total->cellWidget(0,0);
+    lesson_object->set_name(lineedit->text());
+    lineedit=(QLineEdit*)ui->table_lesson_total->cellWidget(3,0);
+    long lasttea=lesson_object->teacherID();
+    long nowtea=qstr_to_long(lineedit->text());
+    if(lasttea!=nowtea)
+    {
+        lesson_object->set_teacherID(nowtea);
+        teacher(lasttea).lessonID.remove_value(lesson_object->ID());
+        teacher(nowtea).lessonID.add(lesson_object->ID());
+    }
+    lineedit=(QLineEdit*)ui->table_lesson_total->cellWidget(4,0);
+    lesson_object->set_credit(qstr_to_int(lineedit->text()));
+    long stuid;
+    for(int i=0;i<ui->table_lesson->rowCount();i++)
+    {
+        lineedit=(QLineEdit*)ui->table_lesson->cellWidget(i,1);
+        stuid=qstr_to_long(lineedit->text());
+        lineedit=(QLineEdit*)ui->table_lesson->cellWidget(i,2);
+        for(int j=0;j<lesson_object->stuscore.count();j++)
+        {
+            if(stuid==lesson_object->stuscore[j].studentID)
+            {
+                lesson_object->stuscore[j]._score=qstr_to_int(lineedit->text());
+                break;
+            }
+        }
+    }
+}
+
 void Manager_MainWindow::open_file()
 {
     open_student_file();
@@ -1268,14 +1380,14 @@ bool Manager_MainWindow::check_student()
         critical_wronglesid(count+1);
         return false;
     }
-    int score=-10;
+    int score_=-10;
     lineedit=(QLineEdit*)ui->table_student->cellWidget(count,4);
     if(lineedit->text()==QString())
     {
         critical_noscore(count+1);
         return false;
     }
-    score=qstr_to_int(lineedit->text());
+    score_=qstr_to_int(lineedit->text());
     bool flag=true;
     for(int i=0;i<lesson.count();i++)
     {
@@ -1343,6 +1455,91 @@ bool Manager_MainWindow::check_lesson()
         if(lesson_object->stuscore[i].studentID==id)
         {
             critical_repeatstu(count+1);
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Manager_MainWindow::check_teacher_all()
+{
+    QLineEdit*lineedit=(QLineEdit*)ui->table_teacher_total->cellWidget(0,0);
+    if(lineedit->text()==QString())
+    {
+        critical_nopersonname(1);
+        return false;
+    }
+    return true;
+}
+
+bool Manager_MainWindow::check_student_all()
+{
+    QLineEdit*lineedit;
+    lineedit=(QLineEdit*)ui->table_student_total->cellWidget(0,0);
+    if(lineedit->text()==QString())
+    {
+        critical_nopersonname(1);
+        return false;
+    }
+    for(int i=0;i<ui->table_student->rowCount();i++)
+    {
+        lineedit=(QLineEdit*)ui->table_student->cellWidget(i,4);
+        if(lineedit->text()==QString())
+        {
+            critical_noscore(i+1);
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Manager_MainWindow::check_lesson_all()
+{
+    QLineEdit*lineedit;
+    lineedit=(QLineEdit*)ui->table_lesson_total->cellWidget(0,0);
+    if(lineedit->text()==QString())
+    {
+        critical_nopersonname(1);
+        return false;
+    }
+    lineedit=(QLineEdit*)ui->table_lesson_total->cellWidget(3,0);
+    if(lineedit->text()==QString())
+    {
+        critical_noteaid(3);
+        return false;
+    }
+    long id=qstr_to_long(lineedit->text());
+    if(id<100000)
+    {
+        critical_wrongteaid(3);
+        return false;
+    }
+    bool flag=true;
+    for(int i=0;i<teacher.count();i++)
+    {
+        if(teacher[i].ID()==id)
+        {
+            flag=false;
+            break;
+        }
+    }
+    if(flag)
+    {
+        critical_notea(3);
+        return false;
+    }
+    lineedit=(QLineEdit*)ui->table_lesson_total->cellWidget(4,0);
+    if(lineedit->text()==QString())
+    {
+        critical_nocredit(4);
+        return false;
+    }
+    for(int i=0;i<ui->table_lesson->rowCount();i++)
+    {
+        lineedit=(QLineEdit*)ui->table_lesson->cellWidget(i,2);
+        if(lineedit->text()==QString())
+        {
+            critical_noscore(i+1);
             return false;
         }
     }
@@ -1570,12 +1767,24 @@ void Manager_MainWindow::on_action_lesson_triggered()
 void Manager_MainWindow::on_action_edit_triggered()
 {
     bool flag=ui->action_edit->isChecked();
-    if(now_page!=2||ui->action_New->isChecked())
+    if(now_page!=2||ui->action_New->isChecked()||!ui->action_edit->isChecked())
     {
         ui->action_edit->setChecked(!flag);
         return ;
     }
-    //开始编辑
+    if(now_state==state_teacher)
+    {
+        set_teacher_editable(true);
+    }
+    else if(now_state==state_student)
+    {
+        set_student_editable(true);
+    }
+    else if(now_state==state_lesson)
+    {
+        set_lesson_editable(true);
+    }
+
 
 }
 
@@ -2079,5 +2288,36 @@ void Manager_MainWindow::on_action_Save_triggered()
             }
         }
 
+    }
+    else if(ui->action_edit->isChecked())
+    {
+        if(now_state==state_student&&check_student_all())
+        {
+            ui->action_edit->setChecked(false);
+            set_student_editable(false);
+            update_student();
+            close_all();
+            open_student();
+            set_studenttable_visible(true);
+
+        }
+        else if(now_state==state_teacher&&check_teacher_all())
+        {
+            ui->action_edit->setChecked(false);
+            set_teacher_editable(false);
+            update_teacher();
+            close_all();
+            open_teacher();
+            set_teachertable_visible(true);
+        }
+        else if(now_state==state_lesson&&check_lesson_all())
+        {
+            ui->action_edit->setChecked(false);
+            set_lesson_editable(false);
+            update_lesson();
+            close_all();
+            open_lesson();
+            set_lessontable_visible(true);
+        }
     }
 }

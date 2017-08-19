@@ -86,6 +86,12 @@ private:
     void set_teachertable_visible(bool arg);
     void set_lessontable_visible(bool arg);
     void set_table_visivle(bool arg);
+    void set_student_editable(bool arg);
+    void set_teacher_editable(bool arg);
+    void set_lesson_editable(bool arg);
+    void update_student();
+    void update_teacher();
+    void update_lesson();
     void open_file();
     void open_student_file();
     void open_teacher_file();
@@ -134,6 +140,9 @@ private:
     bool check_lesson_list();
     bool check_student();
     bool check_lesson();
+    bool check_teacher_all();
+    bool check_student_all();
+    bool check_lesson_all();
     void critical_nopersonname(int row);
     void critical_nolesname(int row);
     void critical_nostuid(int row);
