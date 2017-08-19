@@ -15,6 +15,7 @@
 #include<QPixmap>
 #include<QDebug>
 #include<QMouseEvent>
+#include<QCloseEvent>
 #include"specific_person.h"
 #include"lesson.h"
 #include"vector.h"
@@ -31,6 +32,9 @@ class Manager_MainWindow : public QMainWindow
 public:
     explicit Manager_MainWindow(QWidget *parent = 0);
     ~Manager_MainWindow();
+
+protected:
+    void closeEvent(QCloseEvent *event);
 
 private slots:
 
@@ -63,9 +67,11 @@ private:
 private:
     void table_resize();
     void tablestudent_resize();
+    void close_all();
     void clear_alltable();
     void clear_table();
     void clear_student();
+    void set_all_visible(bool arg);
     void set_welcome_visible(bool arg);
     void set_serach_visible(bool arg);
     void set_studenttable_visible(bool arg);
@@ -74,6 +80,10 @@ private:
     void open_student_file();
     void open_teacher_file();
     void open_lesson_file();
+    void save_student_file();
+    void save_teacher_file();
+    void save_lesson_file();
+    void save_file();
     void addrow_table_stuortea(QString name,long id,bool sex,bool editable);
     void addrow_table_lesson(QString lessonname,long id,QString teachername,bool editable);
     void addrow_table_totalstu(QString name,long id,bool sex,double avescore,double gpa);

@@ -31,6 +31,27 @@ Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
     set_studenttable_visible(false);
     ui->table->setVisible(false);
     open_file();
+    QLabel* label_takeupspace=new QLabel(this);
+    label_takeupspace->setFixedSize(32,32);
+    label_takeupspace->setPixmap(QPixmap(":/image/images/背景.png"));
+  /*  student[0].lessonID.add(20000000);lesson(20000000).stuscore.add(score(2016011073,100)); //weijifen
+    student[0].lessonID.add(20000001);lesson(20000001).stuscore.add(score(2016011073,95));  //dawu
+    student[0].lessonID.add(20000002);lesson(20000002).stuscore.add(score(2016011073,92));  //xiandai
+    student[1].lessonID.add(20000000);lesson(20000000).stuscore.add(score(2016000012,92)); //weijifen
+    student[1].lessonID.add(20000001);lesson(20000001).stuscore.add(score(2016000012,89));  //dawu
+    student[1].lessonID.add(20000002);lesson(20000002).stuscore.add(score(2016000012,87));  //xiandai
+    student[1].set_ID(2016000012),student[1].set_name("张叶");
+    student[2].lessonID.add(20000000);lesson(20000000).stuscore.add(score(2016000013,93)); //weijifen
+    student[2].lessonID.add(20000001);lesson(20000001).stuscore.add(score(2016000013,97));  //dawu
+    student[2].lessonID.add(20000002);lesson(20000002).stuscore.add(score(2016000013,96));  //xiandai
+    student[2].set_ID(2016000013),student[2].set_name("王舒"),student[2].set_sex(woman);
+    teacher[0].lessonID.add(20000000);
+    teacher[1].lessonID.add(20000001),teacher[1].set_name("安宇");
+    teacher[2].lessonID.add(20000002),teacher[2].set_name("瞿燕辉");
+    lesson[0].set_teacherID(100000);
+    lesson[1].set_teacherID(100001),lesson[1].set_name("大学物理"),lesson[1].set_credit(4);
+    lesson[2].set_teacherID(100002),lesson[2].set_name("线性代数"),lesson[2].set_credit(2);*/
+    //save_file();
     //open_student_file();
     //open_teacher_file();
     //open_lesson_file();
@@ -40,6 +61,11 @@ Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
 Manager_MainWindow::~Manager_MainWindow()
 {
     delete ui;
+}
+
+void Manager_MainWindow::closeEvent(QCloseEvent *event)
+{
+    save_file();
 }
 
 void Manager_MainWindow::set_welcome_visible(bool arg)
@@ -114,7 +140,7 @@ void Manager_MainWindow::open_student_file()
         finstu.read((char*)(&n),sizeof(int));
         student.add(Student(id,name,sex));
         long lessonid;
-        for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
         {
             finstu.read((char*)(&lessonid),sizeof(long));
             student[i].lessonID.add(lessonid);
@@ -158,7 +184,7 @@ void Manager_MainWindow::open_teacher_file()
         finstu.read((char*)(&n),sizeof(int));
         teacher.add(Teacher(id,name,sex));
         long lessonid;
-        for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
         {
             finstu.read((char*)(&lessonid),sizeof(long));
             teacher[i].lessonID.add(lessonid);
@@ -206,7 +232,7 @@ void Manager_MainWindow::open_lesson_file()
         finles.read((char*)(&n),sizeof(int));
         long stuid;
         int scores;
-        for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
         {
             finles.read((char*)(&stuid),sizeof(long));
             finles.read((char*)(&scores),sizeof(int));
@@ -216,6 +242,147 @@ void Manager_MainWindow::open_lesson_file()
         finles.close();
         delete []name;
     }
+}
+
+void Manager_MainWindow::save_student_file()
+{qDebug()<<"begin";
+    fstream fout;
+    fout.open("studentlist.bin",ios_base::out|ios_base::trunc);
+    int count=student.count();
+    long id;
+    fout.write((char*)(&count),sizeof(int));
+    for(int i=0;i<count;i++)
+    {
+        id=student[i].ID();qDebug()<<id;
+        fout.write((char*)(&id),sizeof(long));
+    }
+    fout.close();
+    QString prefix="stu_";
+    QString suffix=".bin";
+    QString filename;
+    long stuid,lesid;
+    bool sex;
+    int lescount;
+    for(int i=0;i<count;i++)
+    {
+        id=student[i].ID();
+        filename=prefix+long_to_qstr(id)+suffix;
+        fout.open(filename.toStdString(),ios_base::out|ios_base::trunc);
+        QString name=student[i].name();
+        int size=name.toStdString().size();
+        fout.write((char*)(&size),sizeof(int));qDebug()<<size;
+        fout.write(name.toStdString().c_str(),size);qDebug()<<name.toStdString().c_str();
+        stuid=student[i].ID();
+        fout.write((char*)(&stuid),sizeof(long));qDebug()<<stuid;
+        sex=student[i].sex();
+        fout.write((char*)(&sex),sizeof(bool));qDebug()<<sex;
+        lescount=student[i].lessonID.count();
+        fout.write((char*)(&lescount),sizeof(int));qDebug()<<lescount;
+        for(int j=0;j<lescount;j++)
+        {
+            lesid=student[i].lessonID[j];
+            fout.write((char*)(&lesid),sizeof(long));qDebug()<<stuid<<":"<<lesid;
+        }
+        fout.close();
+    }qDebug()<<"end";
+}
+
+void Manager_MainWindow::save_teacher_file()
+{
+    fstream fout;
+    fout.open("teacherlist.bin",ios_base::out|ios_base::trunc);
+    int count=teacher.count();
+    long id;
+    fout.write((char*)(&count),sizeof(int));
+    for(int i=0;i<count;i++)
+    {
+        id=teacher[i].ID();
+        fout.write((char*)(&id),sizeof(long));
+    }
+    fout.close();
+    QString prefix="tea_";
+    QString suffix=".bin";
+    QString filename;
+    long teaid,lesid;
+    bool sex;
+    int lescount;
+    for(int i=0;i<count;i++)
+    {
+        id=teacher[i].ID();
+        filename=prefix+long_to_qstr(id)+suffix;
+        fout.open(filename.toStdString(),ios_base::out|ios_base::trunc);
+        QString name=teacher[i].name();
+        int size=name.toStdString().size();
+        fout.write((char*)(&size),sizeof(int));
+        fout.write(name.toStdString().c_str(),size);
+        teaid=teacher[i].ID();
+        fout.write((char*)(&teaid),sizeof(long));
+        sex=teacher[i].sex();
+        fout.write((char*)(&sex),sizeof(bool));
+        lescount=teacher[i].lessonID.count();
+        fout.write((char*)(&lescount),sizeof(int));
+        for(int j=0;j<lescount;j++)
+        {
+            lesid=teacher[i].lessonID[j];
+            fout.write((char*)(&lesid),sizeof(long));
+        }
+        fout.close();
+    }
+}
+
+void Manager_MainWindow::save_lesson_file()
+{
+    fstream fout;
+    fout.open("lessonlist.bin",ios_base::out|ios_base::trunc);
+    int count=lesson.count();
+    long id;
+    fout.write((char*)(&count),sizeof(int));
+    for(int i=0;i<count;i++)
+    {
+        id=lesson[i].ID();
+        fout.write((char*)(&id),sizeof(long));
+    }
+    fout.close();
+    QString prefix="les_";
+    QString suffix=".bin";
+    QString filename;
+    long lesid,stuid,teaid;
+    int credit,score_;
+    int stucount;
+    for(int i=0;i<count;i++)
+    {
+        id=lesson[i].ID();
+        filename=prefix+long_to_qstr(id)+suffix;
+        fout.open(filename.toStdString(),ios_base::out|ios_base::trunc);
+        QString name=lesson[i].name();
+        int size=name.toStdString().size();
+        fout.write((char*)(&size),sizeof(int));
+        fout.write(name.toStdString().c_str(),size);
+        lesid=lesson[i].ID();
+        fout.write((char*)(&lesid),sizeof(long));
+        credit=lesson[i].credit();
+        fout.write((char*)(&credit),sizeof(int));
+        teaid=lesson[i].teacherID();
+        fout.write((char*)(&teaid),sizeof(long));
+        stucount=lesson[i].stuscore.count();
+        fout.write((char*)(&stucount),sizeof(int));
+        for(int j=0;j<stucount;j++)
+        {
+            stuid=lesson[i].stuscore[j].studentID;
+            score_=lesson[i].stuscore[j]._score;
+            fout.write((char*)(&stuid),sizeof(long));
+            fout.write((char*)(&score_),sizeof(int));
+
+        }
+        fout.close();
+    }
+}
+
+void Manager_MainWindow::save_file()
+{
+    save_student_file();
+    save_teacher_file();
+    save_lesson_file();
 }
 
 void Manager_MainWindow::addrow_table_stuortea(QString name, long id, bool sex,bool editable)
@@ -355,7 +522,7 @@ void Manager_MainWindow::open_lessonlist()
 
 void Manager_MainWindow::open_student()
 {
-    int nowscore,nowcredit,nowgpa;
+    double nowscore,nowcredit,nowgpa;
     double totalscore,totalcredit,totalgpa;
     totalcredit=totalgpa=totalscore=0;
     Lesson now;
@@ -379,7 +546,7 @@ void Manager_MainWindow::open_student()
             totalscore+=nowcredit*nowscore;
             totalgpa+=nowcredit*nowgpa;
         }
-    }
+    }qDebug()<<totalscore<<totalgpa<<totalcredit;
     addrow_table_totalstu(student_object->name(),student_object->ID(),student_object->sex(),totalscore/totalcredit,totalgpa/totalcredit);
 }
 
@@ -569,16 +736,18 @@ void Manager_MainWindow::on_action_student_triggered()
         ui->action_student->setChecked(!flag);
         return ;
     }
-    clear_alltable();
+    close_all();
     set_welcome_visible(!flag);
     set_serach_visible(flag);
     set_table_visivle(flag);
     if(!flag)
     {
         now_page=0;
+        now_state=state_welcome;
         return ;
     }
     now_page=1;
+    now_state=state_student;
     ui->action_teacher->setChecked(false);
     ui->action_lesson->setChecked(false);
     //打开studentlist
@@ -600,9 +769,11 @@ void Manager_MainWindow::on_action_teacher_triggered()
     if(!flag)
     {
         now_page=0;
+        now_state=state_welcome;
         return ;
     }
     now_page=1;
+    now_state=state_teacher;
     ui->action_student->setChecked(false);
     ui->action_lesson->setChecked(false);
     //打开tealist
@@ -624,9 +795,11 @@ void Manager_MainWindow::on_action_lesson_triggered()
     if(!flag)
     {
         now_page=0;
+        now_state=state_welcome;
         return ;
     }
     now_page=1;
+    now_state=state_lesson;
     ui->action_teacher->setChecked(false);
     ui->action_student->setChecked(false);
     //打开lesslist
@@ -675,6 +848,12 @@ void Manager_MainWindow::tablestudent_resize()
     ui->table_student->resize(w,h);
 }
 
+void Manager_MainWindow::close_all()
+{
+    clear_alltable();
+    set_all_visible(false);
+}
+
 void Manager_MainWindow::clear_alltable()
 {
     clear_table();
@@ -700,6 +879,14 @@ void Manager_MainWindow::clear_student()
         ui->table_student->removeRow(0);
 }
 
+void Manager_MainWindow::set_all_visible(bool arg)
+{
+    set_welcome_visible(arg);
+    set_serach_visible(arg);
+    set_studenttable_visible(arg);
+    set_table_visivle(arg);
+}
+
 void Manager_MainWindow::on_action_Look_triggered()
 {
     int count=ui->table->currentRow();
@@ -714,7 +901,7 @@ void Manager_MainWindow::on_action_Look_triggered()
             student_object=&student[i];
             break;
         }
-    }student_object->lessonID.add(20000000);lesson(20000000).stuscore.add(score(2016011073,97));
+    }
     open_student();
     set_table_visivle(false);
     set_studenttable_visible(true);
