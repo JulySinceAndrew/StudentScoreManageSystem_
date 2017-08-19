@@ -103,6 +103,10 @@ private:
     void addrow_table_teacher(QString lessonname,long id,int credit,int stunumber,bool editable);
     void addrow_table_totalles(QString lessonname,long id,QString teachername,long teacherid,int credit,int stunumber,double avescore,double avegpa,double midscore,double midgpa,double passpencentage);
     void addrow_table_lesson(QString stuname,long stuid,int score,bool editable);
+    void newrow_table_student();
+    bool saverow_table_student();
+    void newrow_table_lesson();
+    bool saverow_table_lesson();
     void open_studentlist();
     void open_teacherlist();
     void open_lessonlist();
@@ -128,6 +132,8 @@ private:
     bool check_student_list();
     bool check_teacher_list();
     bool check_lesson_list();
+    bool check_student();
+    bool check_lesson();
     void critical_nopersonname(int row);
     void critical_nolesname(int row);
     void critical_nostuid(int row);
@@ -142,6 +148,10 @@ private:
     void critical_repeatstu(int row);
     void critical_repeattea(int row);
     void critical_notea(int row);
+    void critical_nostu(int row);
+    void critical_noscore(int row);
+    void critical_noles(int row);
+    void critical_stu_repeatles(int row);
     void new_lesson_list();
 };
 

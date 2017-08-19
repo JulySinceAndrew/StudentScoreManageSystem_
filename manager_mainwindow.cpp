@@ -659,6 +659,111 @@ void Manager_MainWindow::addrow_table_lesson(QString stuname, long stuid, int sc
     lineedit->setReadOnly(!editable);
 }
 
+void Manager_MainWindow::newrow_table_student()
+{
+    int count=ui->table_student->rowCount();
+    ui->table_student->insertRow(count);
+    QLineEdit* lineedit;
+    lineedit=new QLineEdit(this);
+    ui->table_student->setCellWidget(count,0,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=lineedit_lessonID();
+    ui->table_student->setCellWidget(count,1,lineedit);
+    lineedit->setReadOnly(false);
+    lineedit=new QLineEdit(this);
+    ui->table_student->setCellWidget(count,2,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=lineedit_credit();
+    ui->table_student->setCellWidget(count,3,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=lineedit_score();
+    ui->table_student->setCellWidget(count,4,lineedit);
+    lineedit->setReadOnly(false);
+    lineedit=new QLineEdit(this);
+    ui->table_student->setCellWidget(count,5,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=new QLineEdit(this);
+    ui->table_student->setCellWidget(count,6,lineedit);
+    lineedit->setReadOnly(true);
+}
+
+bool Manager_MainWindow::saverow_table_student()
+{
+    if(check_student())
+    {
+        QLineEdit* lineedit;
+        int count=ui->table_student->rowCount();
+        count--;
+        lineedit=(QLineEdit*)ui->table_student->cellWidget(count,1);
+        Lesson &nowles=lesson(qstr_to_int(lineedit->text()));
+        student_object->lessonID.add(nowles.ID());
+        lineedit->setReadOnly(true);
+        lineedit=(QLineEdit*)ui->table_student->cellWidget(count,0);
+        lineedit->setText(nowles.name());
+        lineedit=(QLineEdit*)ui->table_student->cellWidget(count,2);
+        lineedit->setText(teacher(nowles.teacherID()).name());
+        lineedit=(QLineEdit*)ui->table_student->cellWidget(count,3);
+        lineedit->setText(int_to_qstr(nowles.credit()));
+        lineedit=(QLineEdit*)ui->table_student->cellWidget(count,4);
+        lineedit->setReadOnly(true);
+        int score_=qstr_to_int(lineedit->text());
+        nowles.stuscore.add(score(student_object->ID(),score_));
+        lineedit=(QLineEdit*)ui->table_student->cellWidget(count,5);
+        lineedit->setText(score_to_str_gpa(score_));
+        lineedit=(QLineEdit*)ui->table_student->cellWidget(count,6);
+        lineedit->setText(score_to_level(score_));
+        return true;
+    }
+    return false;
+}
+
+void Manager_MainWindow::newrow_table_lesson()
+{
+    int count=ui->table_lesson->rowCount();
+    QLineEdit* lineedit;
+    ui->table_lesson->insertRow(count);
+    lineedit=new QLineEdit(this);
+    lineedit->setReadOnly(true);
+    ui->table_lesson->setCellWidget(count,0,lineedit);
+    lineedit=lineedit_studentID();
+    lineedit->setReadOnly(false);
+    ui->table_lesson->setCellWidget(count,1,lineedit);
+    lineedit=lineedit_score();
+    lineedit->setReadOnly(false);
+    ui->table_lesson->setCellWidget(count,2,lineedit);
+    lineedit=new QLineEdit(this);
+    lineedit->setReadOnly(true);
+    ui->table_lesson->setCellWidget(count,3,lineedit);
+    lineedit=new QLineEdit(this);
+    lineedit->setReadOnly(true);
+    ui->table_lesson->setCellWidget(count,4,lineedit);
+}
+
+bool Manager_MainWindow::saverow_table_lesson()
+{
+    if(check_lesson())
+    {
+        int count=ui->table_lesson->rowCount()-1;
+        QLineEdit* lineedit;
+        lineedit=(QLineEdit*)ui->table_lesson->cellWidget(count,1);
+        Student &nowstu=student(qstr_to_long(lineedit->text()));
+        nowstu.lessonID.add(lesson_object->ID());
+        lineedit->setReadOnly(true);
+        lineedit=(QLineEdit*)ui->table_lesson->cellWidget(count,0);
+        lineedit->setText(nowstu.name());
+        lineedit=(QLineEdit*)ui->table_lesson->cellWidget(count,2);
+        int score_=qstr_to_int(lineedit->text());
+        lesson_object->stuscore.add(score(nowstu.ID(),score_));
+        lineedit->setReadOnly(true);
+        lineedit=(QLineEdit*)ui->table_lesson->cellWidget(count,3);
+        lineedit->setText(score_to_str_gpa(score_));
+        lineedit=(QLineEdit*)ui->table_lesson->cellWidget(count,4);
+        lineedit->setText(score_to_level(score_));
+        return true;
+    }
+    return false;
+}
+
 void Manager_MainWindow::open_studentlist()
 {
     ui->table->horizontalHeaderItem(0)->setText("姓名");
@@ -1150,6 +1255,100 @@ bool Manager_MainWindow::check_lesson_list()
     return true;
 }
 
+bool Manager_MainWindow::check_student()
+{
+    int count=ui->table_student->rowCount();
+    count--;
+    QLineEdit* lineedit;
+    lineedit=(QLineEdit*)ui->table_student->cellWidget(count,1);
+    long id=-1;
+    id=qstr_to_long(lineedit->text());
+    if(id<10000000)
+    {
+        critical_wronglesid(count+1);
+        return false;
+    }
+    int score=-10;
+    lineedit=(QLineEdit*)ui->table_student->cellWidget(count,4);
+    if(lineedit->text()==QString())
+    {
+        critical_noscore(count+1);
+        return false;
+    }
+    score=qstr_to_int(lineedit->text());
+    bool flag=true;
+    for(int i=0;i<lesson.count();i++)
+    {
+        if(lesson[i].ID()==id)
+        {
+            flag=false;
+            break;
+        }
+    }
+    if(flag)
+    {
+        critical_noles(count+1);
+        return false;
+    }
+    flag=false;
+    for(int i=0;i<student_object->lessonID.count();i++)
+    {
+        if(id==student_object->lessonID[i])
+        {
+            flag=true;
+            break;
+        }
+    }
+    if(flag)
+    {
+        critical_stu_repeatles(count+1);
+        return false;
+    }
+    return true;
+}
+
+bool Manager_MainWindow::check_lesson()
+{
+    int count=ui->table_lesson->rowCount()-1;
+    QLineEdit* lineedit;
+    lineedit=(QLineEdit*)(ui->table_lesson->cellWidget(count,1));
+    long id=qstr_to_long(lineedit->text());
+    if(id<2000000000)
+    {
+        critical_wrongstuid(count+1);
+        return false;
+    }
+    lineedit=(QLineEdit*)(ui->table_lesson->cellWidget(count,2));
+    if(lineedit->text()==QString())
+    {
+        critical_noscore(count+1);
+        return false;
+    }
+    bool flag=true;qDebug()<<id;
+    for(int i=0;i<student.count();i++)
+    {
+        if(student[i].ID()==id)
+        {
+            flag=false;
+            break;
+        }
+    }
+    if(flag)
+    {
+        critical_nostu(count+1);
+        return false;
+    }
+    for(int i=0;i<lesson_object->stuscore.count();i++)
+    {
+        if(lesson_object->stuscore[i].studentID==id)
+        {
+            critical_repeatstu(count+1);
+            return false;
+        }
+    }
+    return true;
+}
+
 void Manager_MainWindow::critical_nopersonname(int row)
 {
     ostringstream os;
@@ -1246,6 +1445,34 @@ void Manager_MainWindow::critical_notea(int row)
     ostringstream os;
     os<<"第"<<row<<"行教职工号不存在，请核实后再添加！";
     QMessageBox::critical(this,"教师不存在！",QString::fromStdString(os.str()),QMessageBox::Yes);
+}
+
+void Manager_MainWindow::critical_nostu(int row)
+{
+    ostringstream os;
+    os<<"第"<<row<<"行学号不存在，请核实后再添加！";
+    QMessageBox::critical(this,"学生不存在！",QString::fromStdString(os.str()),QMessageBox::Yes);
+}
+
+void Manager_MainWindow::critical_noscore(int row)
+{
+    ostringstream os;
+    os<<"第"<<row<<"行成绩为空，请填写成绩！";
+    QMessageBox::critical(this,"成绩为空！",QString::fromStdString(os.str()),QMessageBox::Yes);
+}
+
+void Manager_MainWindow::critical_noles(int row)
+{
+    ostringstream os;
+    os<<"第"<<row<<"行课程号号不存在，请核实后再添加！";
+    QMessageBox::critical(this,"课程不存在！",QString::fromStdString(os.str()),QMessageBox::Yes);
+}
+
+void Manager_MainWindow::critical_stu_repeatles(int row)
+{
+    ostringstream os;
+    os<<"第"<<row<<"行课程已经存在，请核实后再添加！";
+    QMessageBox::critical(this,"课程重复！",QString::fromStdString(os.str()),QMessageBox::Yes);
 }
 
 void Manager_MainWindow::new_lesson_list()
@@ -1403,6 +1630,22 @@ void Manager_MainWindow::on_action_New_triggered()
            ui->table->setVisible(false);
            set_serach_visible(false);
            new_lesson_list();
+           return ;
+        }
+    }
+    if(now_page==2)
+    {
+        if(now_state==state_student)
+        {
+            newrow_table_student();
+            student_resize();
+            return ;
+        }
+        if(now_state==state_lesson)
+        {
+            newrow_table_lesson();
+            lesson_resize();
+            return ;
         }
     }
 
@@ -1792,5 +2035,28 @@ void Manager_MainWindow::on_action_Save_triggered()
                 return ;
             }
         }
+        if(now_page==2)
+        {
+            if(now_state==state_student)
+            {
+                if(saverow_table_student())
+                {
+                    clear_student();
+                    open_student();
+                    ui->action_New->setChecked(false);
+                }
+                return ;
+            }
+            if(now_state==state_lesson)
+            {
+                if(saverow_table_lesson())
+                {
+                    clear_lesson();
+                    open_lesson();
+                    ui->action_New->setChecked(false);
+                }
+            }
+        }
+
     }
 }
