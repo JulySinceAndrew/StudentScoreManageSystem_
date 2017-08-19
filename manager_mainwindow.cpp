@@ -1589,14 +1589,14 @@ void Manager_MainWindow::on_action_New_triggered()
     }
     if(!flag)
     {
+        int answer=QMessageBox::question(this,"您是否放弃这次新增？","您是否放弃这次新增？放弃新增后编辑的内容将会丢失",QMessageBox::Yes,QMessageBox::No);
+        if(answer!=QMessageBox::Yes)
+        {
+            ui->action_New->setChecked(true);
+            return ;
+        }
         if(now_page==1)
         {
-            int answer=QMessageBox::question(this,"您是否放弃这次新增？","您是否放弃这次新增？放弃新增后编辑的内容将会丢失",QMessageBox::Yes,QMessageBox::No);
-            if(answer!=QMessageBox::Yes)
-            {
-                ui->action_New->setChecked(true);
-                return ;
-            }
             if(now_state==state_student||now_state==state_teacher)
             {
                 ui->table->removeRow(ui->table->rowCount()-1);
@@ -1609,6 +1609,21 @@ void Manager_MainWindow::on_action_New_triggered()
                 ui->table_newlesson->setVisible(false);
                 ui->table->setVisible(true);
                 set_serach_visible(true);
+                return ;
+            }
+        }
+        if(now_page==2)
+        {
+            if(now_state==state_student)
+            {
+                ui->table_student->removeRow(ui->table_student->rowCount()-1);
+                student_resize();
+                return ;
+            }
+            if(now_state==state_lesson)
+            {
+                ui->table_lesson->removeRow(ui->table_lesson->rowCount()-1);
+                lesson_resize();
                 return ;
             }
         }
@@ -1645,6 +1660,12 @@ void Manager_MainWindow::on_action_New_triggered()
         {
             newrow_table_lesson();
             lesson_resize();
+            return ;
+        }
+        if(now_state==state_teacher)
+        {
+            QMessageBox::warning(this,"禁止在教师栏中新增课程","禁止在教师栏中新增课程，清前往课程栏中将相应的课程的任课教师改为当前教师",QMessageBox::Yes);
+            ui->action_New->setChecked(false);
             return ;
         }
     }
