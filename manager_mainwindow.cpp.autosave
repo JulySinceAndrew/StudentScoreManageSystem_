@@ -1273,3 +1273,60 @@ void Manager_MainWindow::on_action_back_triggered()
         set_serach_visible(true);
     }
 }
+
+void Manager_MainWindow::on_action_deleteobject_triggered()
+{
+    if(ui->action_edit->isChecked()||ui->action_New->isChecked())
+        return ;
+    if(now_page==0)
+        return ;
+    if(now_page==1)
+    {
+        int count=ui->table->currentRow();
+        if(count==-1)
+            return ;
+        int answer=QMessageBox::question(this,"你是否确定要删除该项？","删除后将无法撤销，您是否要删除该项？",QMessageBox::Yes,QMessageBox::No);
+        if(answer!=QMessageBox::Yes)
+            return ;
+        QLineEdit* lineedit;
+        long id;
+        lineedit=(QLineEdit*)ui->table->cellWidget(count,1);
+        id=qstr_to_long(lineedit->text());
+        if(now_state==state_student)
+        {
+            Student now=student(id);
+            long lessonid;
+            for(int i=0;i<now.lessonID.count();i++)
+            {
+                lessonid=now.lessonID[i];
+                for(int j=0;j<lesson(lessonid).stuscore.count();j++)
+                {
+                    if(lesson(lessonid).stuscore[j].studentID==id)
+                    {
+                        lesson(lessonid).stuscore.remove_index(j);
+                        break;
+                    }
+                }
+            }
+            student.remove_ID(id);
+        }
+        else if(now_state==state_teacher)
+        {
+            Teacher now=teacher(id);
+            if(now.lessonID.count()==0)
+                QMessageBox::critical(this,"无法删除！","该教师仍有任课，请先将该教师的任课清空，才能删除该教师信息！",QMessageBox::Yes);
+            teacher.remove_ID(id);
+        }
+        else if(now_state==state_lesson)
+        {
+            Lesson now=lesson(id);
+            long stuid;
+            for(int i=0;i<now.stuscore.count();i++)
+            {
+                stuid=now.stuscore[i].studentID;
+                student(stuid).lessonID.remove_value(id);
+            }
+            teacher(now.teacherID()).lessonID.r
+        }
+    }
+}
