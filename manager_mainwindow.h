@@ -54,6 +54,8 @@ private slots:
 
     void on_action_deleteobject_triggered();
 
+    void on_action_Save_triggered();
+
 private:
     Ui::Manager_MainWindow *ui;
     QLabel* label_takeupspace;
@@ -92,7 +94,8 @@ private:
     void save_teacher_file();
     void save_lesson_file();
     void save_file();
-    void addrow_table_stuortea(QString name,long id,bool sex,bool editable);
+    void addrow_table_studentlist(QString name,long id,bool sex,bool editable);
+    void addrow_table_teacherlist(QString name,long id,bool sex,bool editable);
     void addrow_table_lessonlist(QString lessonname,long id,QString teachername,bool editable);
     void addrow_table_totalstu(QString name,long id,bool sex,double avescore,double gpa);
     void addrow_table_student(QString lessonname,long id,QString teachername,int credit,int score,bool editable);
@@ -122,7 +125,24 @@ private:
     QString percentage_to_qstr(double per);
     long qstr_to_long(QString qs);
     int qstr_to_int(QString qs);
-
+    bool check_student_list();
+    bool check_teacher_list();
+    bool check_lesson_list();
+    void critical_nopersonname(int row);
+    void critical_nolesname(int row);
+    void critical_nostuid(int row);
+    void critical_noteaid(int row);
+    void critical_nolesid(int row);
+    void critical_nocredit(int row);
+    void critical_wrongstuid(int row);
+    void critical_wrongteaid(int row);
+    void critical_wronglesid(int row);
+    void critical_wrongcredit(int row);
+    void critical_repeatles(int row);
+    void critical_repeatstu(int row);
+    void critical_repeattea(int row);
+    void critical_notea(int row);
+    void new_lesson_list();
 };
 
 #endif // MANAGER_MAINWINDOW_H
