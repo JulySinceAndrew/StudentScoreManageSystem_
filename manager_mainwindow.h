@@ -66,15 +66,21 @@ private:
 
 private:
     void table_resize();
-    void tablestudent_resize();
+    void student_resize();
+    void teacher_resize();
+    void lesson_resize();
     void close_all();
     void clear_alltable();
     void clear_table();
     void clear_student();
+    void clear_teacher();
+    void clear_lesson();
     void set_all_visible(bool arg);
     void set_welcome_visible(bool arg);
     void set_serach_visible(bool arg);
     void set_studenttable_visible(bool arg);
+    void set_teachertable_visible(bool arg);
+    void set_lessontable_visible(bool arg);
     void set_table_visivle(bool arg);
     void open_file();
     void open_student_file();
@@ -85,13 +91,19 @@ private:
     void save_lesson_file();
     void save_file();
     void addrow_table_stuortea(QString name,long id,bool sex,bool editable);
-    void addrow_table_lesson(QString lessonname,long id,QString teachername,bool editable);
+    void addrow_table_lessonlist(QString lessonname,long id,QString teachername,bool editable);
     void addrow_table_totalstu(QString name,long id,bool sex,double avescore,double gpa);
     void addrow_table_student(QString lessonname,long id,QString teachername,int credit,int score,bool editable);
+    void addrow_table_totaltea(QString teachername,long id,bool sex,int lessoncount);
+    void addrow_table_teacher(QString lessonname,long id,int credit,int stunumber,bool editable);
+    void addrow_table_totalles(QString lessonname,long id,QString teachername,long teacherid,int credit,int stunumber,double avescore,double avegpa,double midscore,double midgpa,double passpencentage);
+    void addrow_table_lesson(QString stuname,long stuid,int score,bool editable);
     void open_studentlist();
     void open_teacherlist();
     void open_lessonlist();
     void open_student();
+    void open_teacher();
+    void open_lesson();
     QString score_to_level(double score);
     double score_to_gpa(double score);
     QString score_to_str_gpa(double score);
@@ -105,6 +117,7 @@ private:
     QComboBox* combobox_sex();
     QString long_to_qstr(long n);
     QString int_to_qstr(int n);
+    QString percentage_to_qstr(double per);
     long qstr_to_long(QString qs);
 
 };

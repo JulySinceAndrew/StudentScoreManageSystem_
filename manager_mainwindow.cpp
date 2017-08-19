@@ -26,10 +26,8 @@ Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
     setFixedSize(767,523);
     now_page=0;
     now_state=state_welcome;
+    set_all_visible(false);
     set_welcome_visible(true);
-    set_serach_visible(false);
-    set_studenttable_visible(false);
-    ui->table->setVisible(false);
     open_file();
     QLabel* label_takeupspace=new QLabel(this);
     label_takeupspace->setFixedSize(32,32);
@@ -88,6 +86,18 @@ void Manager_MainWindow::set_studenttable_visible(bool arg)
 {
     ui->table_student->setVisible(arg);
     ui->table_student_total->setVisible(arg);
+}
+
+void Manager_MainWindow::set_teachertable_visible(bool arg)
+{
+    ui->table_teacher_total->setVisible(arg);
+    ui->table_teacher->setVisible(arg);
+}
+
+void Manager_MainWindow::set_lessontable_visible(bool arg)
+{
+    ui->table_lesson->setVisible(arg);
+    ui->table_lesson_total->setVisible(arg);
 }
 
 void Manager_MainWindow::set_table_visivle(bool arg)
@@ -407,7 +417,7 @@ void Manager_MainWindow::addrow_table_stuortea(QString name, long id, bool sex,b
     combobox->setEnabled(editable);
 }
 
-void Manager_MainWindow::addrow_table_lesson(QString lessonname, long id, QString teachername,bool editable)
+void Manager_MainWindow::addrow_table_lessonlist(QString lessonname, long id, QString teachername,bool editable)
 {
     int count=ui->table->rowCount();
     ui->table->insertRow(count);
@@ -490,6 +500,141 @@ void Manager_MainWindow::addrow_table_student(QString lessonname, long id, QStri
     lineedit->setReadOnly(true);
 }
 
+void Manager_MainWindow::addrow_table_totaltea(QString teachername, long id, bool sex, int lessoncount)
+{
+    ui->table_teacher_total->insertRow(0);
+    QLineEdit* lineedit;
+    lineedit=new QLineEdit(this);
+    lineedit->setText(teachername);
+    ui->table_teacher_total->setCellWidget(0,0,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=lineedit_teacherID();
+    lineedit->setText(long_to_qstr(id));
+    ui->table_teacher_total->setCellWidget(0,1,lineedit);
+    lineedit->setReadOnly(true);
+    QComboBox *combobox=combobox_sex();
+    if(sex==man)
+        combobox->setCurrentIndex(0);
+    else
+        combobox->setCurrentIndex(1);
+    ui->table_teacher_total->setCellWidget(0,2,combobox);
+    combobox->setEnabled(false);
+    lineedit=new QLineEdit(this);
+    lineedit->setText(int_to_qstr(lessoncount));
+    ui->table_teacher_total->setCellWidget(0,3,lineedit);
+    lineedit->setReadOnly(true);
+}
+
+void Manager_MainWindow::addrow_table_teacher(QString lessonname, long id, int credit, int stunumber,bool editable)
+{
+    int count=ui->table_teacher->rowCount();
+    ui->table_teacher->insertRow(count);
+    QLineEdit* lineedit;
+    lineedit=new QLineEdit(this);
+    lineedit->setText(lessonname);
+    ui->table_teacher->setCellWidget(count,0,lineedit);
+    lineedit->setReadOnly(!editable);
+    lineedit=lineedit_lessonID();
+    lineedit->setText(long_to_qstr(id));
+    ui->table_teacher->setCellWidget(count,1,lineedit);
+    lineedit->setReadOnly(!editable);
+    lineedit=lineedit_credit();
+    lineedit->setText(int_to_qstr(credit));
+    ui->table_teacher->setCellWidget(count,2,lineedit);
+    lineedit->setReadOnly(!editable);
+    lineedit=new QLineEdit(this);
+    lineedit->setText(int_to_qstr(stunumber));
+    ui->table_teacher->setCellWidget(count,3,lineedit);
+    lineedit->setReadOnly(!editable);
+}
+
+void Manager_MainWindow::addrow_table_totalles(QString lessonname, long id, QString teachername, long teacherid, int credit, int stunumber, double avescore, double avegpa,double midscore,double midgpa,double passpercentage)
+{
+    ui->table_lesson_total->insertColumn(0);
+    QLineEdit* lineedit;
+    lineedit=new QLineEdit(this);
+    lineedit->setText(lessonname);
+    ui->table_lesson_total->setCellWidget(0,0,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=lineedit_lessonID();
+    lineedit->setText(long_to_qstr(id));
+    ui->table_lesson_total->setCellWidget(1,0,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=new QLineEdit(this);
+    lineedit->setText(teachername);
+    ui->table_lesson_total->setCellWidget(2,0,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=lineedit_teacherID();
+    lineedit->setText(long_to_qstr(teacherid));
+    ui->table_lesson_total->setCellWidget(3,0,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=lineedit_credit();
+    lineedit->setText(int_to_qstr(credit));
+    ui->table_lesson_total->setCellWidget(4,0,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=new QLineEdit(this);
+    lineedit->setText(int_to_qstr(stunumber));
+    ui->table_lesson_total->setCellWidget(5,0,lineedit);
+    lineedit->setReadOnly(true);
+    if(avescore==-5)
+        return ;
+    if(avescore==-3)
+        return ;
+    lineedit=new QLineEdit(this);
+    lineedit->setText(percentage_to_qstr(passpercentage));
+    ui->table_lesson_total->setCellWidget(10,0,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=new QLineEdit(this);
+    lineedit->setText(percentage_to_qstr(1-passpercentage));
+    ui->table_lesson_total->setCellWidget(11,0,lineedit);
+    lineedit->setReadOnly(true);
+    if(avescore==-1)
+        return ;
+    lineedit=new QLineEdit(this);
+    lineedit->setText(avescore_to_qstr(avescore));
+    ui->table_lesson_total->setCellWidget(6,0,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=new QLineEdit(this);
+    lineedit->setText(avegpa_to_qstr(avegpa));
+    ui->table_lesson_total->setCellWidget(7,0,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=new QLineEdit(this);
+    lineedit->setText(avescore_to_qstr(midscore));
+    ui->table_lesson_total->setCellWidget(8,0,lineedit);
+    lineedit->setReadOnly(true);
+    lineedit=new QLineEdit(this);
+    lineedit->setText(avegpa_to_qstr(midgpa));
+    ui->table_lesson_total->setCellWidget(9,0,lineedit);
+    lineedit->setReadOnly(true);
+}
+
+void Manager_MainWindow::addrow_table_lesson(QString stuname, long stuid, int score, bool editable)
+{
+    int count=ui->table_lesson->rowCount();
+    ui->table_lesson->insertRow(count);
+    QLineEdit* lineedit;
+    lineedit=new QLineEdit(this);
+    lineedit->setText(stuname);
+    ui->table_lesson->setCellWidget(count,0,lineedit);
+    lineedit->setReadOnly(!editable);
+    lineedit=lineedit_studentID();
+    lineedit->setText(long_to_qstr(stuid));
+    ui->table_lesson->setCellWidget(count,1,lineedit);
+    lineedit->setReadOnly(!editable);
+    lineedit=lineedit_score();
+    lineedit->setText(int_to_qstr(score));
+    ui->table_lesson->setCellWidget(count,2,lineedit);
+    lineedit->setReadOnly(!editable);
+    lineedit=new QLineEdit(this);
+    lineedit->setText(score_to_str_gpa(score));
+    ui->table_lesson->setCellWidget(count,3,lineedit);
+    lineedit->setReadOnly(!editable);
+    lineedit=new QLineEdit(this);
+    lineedit->setText(score_to_level(score));
+    ui->table_lesson->setCellWidget(count,4,lineedit);
+    lineedit->setReadOnly(!editable);
+}
+
 void Manager_MainWindow::open_studentlist()
 {
     ui->table->horizontalHeaderItem(0)->setText("姓名");
@@ -516,7 +661,7 @@ void Manager_MainWindow::open_lessonlist()
     ui->table->horizontalHeaderItem(1)->setText("课程号");
     ui->table->horizontalHeaderItem(2)->setText("教师");
     for(int i=0;i<teacher.count();i++)
-        addrow_table_lesson(lesson[i].name(),lesson[i].ID(),teacher(lesson[i].teacherID()).name(),false);
+        addrow_table_lessonlist(lesson[i].name(),lesson[i].ID(),teacher(lesson[i].teacherID()).name(),false);
     table_resize();
 }
 
@@ -546,8 +691,97 @@ void Manager_MainWindow::open_student()
             totalscore+=nowcredit*nowscore;
             totalgpa+=nowcredit*nowgpa;
         }
-    }qDebug()<<totalscore<<totalgpa<<totalcredit;
+    }
     addrow_table_totalstu(student_object->name(),student_object->ID(),student_object->sex(),totalscore/totalcredit,totalgpa/totalcredit);
+}
+
+void Manager_MainWindow::open_teacher()
+{
+    addrow_table_totaltea(teacher_object->name(),teacher_object->ID(),teacher_object->sex(),teacher_object->lessonID.count());
+    Lesson now;
+    for(int i=0;i<teacher_object->lessonID.count();i++)
+    {
+        now=lesson(teacher_object->lessonID[i]);
+        addrow_table_teacher(now.name(),now.ID(),now.credit(),now.stuscore.count(),false);
+    }
+}
+
+void Manager_MainWindow::open_lesson()
+{
+    double nowscore,nowgpa;
+    double totalscore,totalgpa;
+    totalgpa=totalscore=0;
+    int count=lesson_object->stuscore.count();
+    int *stuscore=new int[count];
+    Student now;
+    if(count==0)
+    {
+       addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),-5,-5,-5,-5,-5);//-5代表空
+       return ;
+    }
+    if(nowscore==-3)
+    {
+        nowscore=stuscore[0];
+        addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),-3,-3,-3,-3,-3);//-3代表没出成绩
+        return ;
+    }
+    for(int i=0;i<count;i++)
+    {
+        now=student(lesson_object->stuscore[i].studentID);
+        nowscore=lesson_object->stuscore[i]._score;
+        addrow_table_lesson(now.name(),now.ID(),nowscore,false);
+        nowgpa=score_to_gpa(nowscore);
+        stuscore[i]=nowscore;
+        if(nowscore>=0)
+        {
+           totalgpa+=nowgpa;
+           totalscore+=nowscore;
+        }
+    }
+    if(nowscore==-1||nowscore==-2)
+    {
+        int passcount=0;
+        for(int i=0;i<count;i++)
+        {
+            if(stuscore[i]==-1)
+                passcount++;
+        }
+            addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),-1,-1,-1,-1,passcount/count);//-1代表记PF
+    }
+    double avescore,avegpa;
+    avescore=totalscore/count;
+    avegpa=totalgpa/count;
+    int temp;
+    for(int i=0;i<count-1;i++) //从小到大排序
+    {
+        for(int j=0;j<count-i-1;j++)
+        {
+            if(stuscore[j]>stuscore[j+1])
+            {
+                temp=stuscore[j];
+                stuscore[j]=stuscore[j+1];
+                stuscore[j+1]=temp;
+            }
+        }
+    }
+    double midscore,midgpa;
+    if(count%2==1)
+    {
+        midscore=stuscore[count/2];
+        midgpa=score_to_gpa(midscore);
+    }
+    else
+    {
+        midscore=(stuscore[count/2]+stuscore[count/2-1])/2;
+        midgpa=(score_to_gpa(stuscore[count/2])+score_to_gpa(stuscore[count/2-1]))/2;
+    }
+    int passcount=0;
+    for(int i=0;i<count;i++)
+    {
+        if(stuscore[i]>=60)
+            passcount++;
+    }
+    addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),avescore,avegpa,midscore,midgpa,passcount/count);
 }
 
 QString Manager_MainWindow::score_to_level(double score)
@@ -719,6 +953,18 @@ QString Manager_MainWindow::int_to_qstr(int n)
     return QString::fromStdString(os.str());
 }
 
+QString Manager_MainWindow::percentage_to_qstr(double per)
+{
+    double temp=per*10000;
+    int temp2=temp;
+    if(temp-temp2>=0.5)
+        temp2++;
+    double re=double(temp2)/100;
+    ostringstream os;
+    os<<re<<"%";
+    return QString::fromStdString(os.str());
+}
+
 long Manager_MainWindow::qstr_to_long(QString qs)
 {
     istringstream is(qs.toStdString());
@@ -762,7 +1008,7 @@ void Manager_MainWindow::on_action_teacher_triggered()
         ui->action_teacher->setChecked(!flag);
         return ;
     }
-    clear_alltable();
+    close_all();
     set_welcome_visible(!flag);
     set_serach_visible(flag);
     set_table_visivle(flag);
@@ -788,7 +1034,7 @@ void Manager_MainWindow::on_action_lesson_triggered()
         ui->action_lesson->setChecked(!flag);
         return ;
     }
-    clear_alltable();
+    close_all();
     set_welcome_visible(!flag);
     set_serach_visible(flag);
     set_table_visivle(flag);
@@ -839,13 +1085,31 @@ void Manager_MainWindow::table_resize()
     ui->table->resize(w,h);
 }
 
-void Manager_MainWindow::tablestudent_resize()
+void Manager_MainWindow::student_resize()
 {
     int w=ui->table_student->size().width();
     int h=ui->table_student->rowCount()*row_height+top_height;
     if(h>352)
     h=352;
     ui->table_student->resize(w,h);
+}
+
+void Manager_MainWindow::teacher_resize()
+{
+    int w=ui->table_teacher->size().width();
+    int h=ui->table_teacher->rowCount()*row_height+top_height;
+    if(h>352)
+    h=352;
+    ui->table_teacher->resize(w,h);
+}
+
+void Manager_MainWindow::lesson_resize()
+{
+    int w=ui->table_lesson->size().width();
+    int h=ui->table_lesson->rowCount()*row_height+top_height;
+    if(h>352)
+    h=352;
+    ui->table_lesson->resize(w,h);
 }
 
 void Manager_MainWindow::close_all()
@@ -858,6 +1122,8 @@ void Manager_MainWindow::clear_alltable()
 {
     clear_table();
     clear_student();
+    clear_teacher();
+    clear_lesson();
 }
 
 void Manager_MainWindow::clear_table()
@@ -879,32 +1145,102 @@ void Manager_MainWindow::clear_student()
         ui->table_student->removeRow(0);
 }
 
+void Manager_MainWindow::clear_teacher()
+{
+    int count;
+    count=ui->table_teacher_total->rowCount();
+    if(count==1)
+        ui->table_teacher_total->removeRow(0);
+    count=ui->table_teacher->rowCount();
+    for(int i=0;i<count;i++)
+        ui->table_teacher->removeRow(0);
+}
+
+void Manager_MainWindow::clear_lesson()
+{
+    int count;
+    count=ui->table_lesson_total->columnCount();
+    if(count==1)
+        ui->table_lesson_total->removeColumn(0);
+    count=ui->table_lesson->rowCount();
+    for(int i=0;i<count;i++)
+        ui->table_lesson->removeRow(0);
+}
+
 void Manager_MainWindow::set_all_visible(bool arg)
 {
     set_welcome_visible(arg);
     set_serach_visible(arg);
     set_studenttable_visible(arg);
     set_table_visivle(arg);
+    set_teachertable_visible(arg);
+    set_lessontable_visible(arg);
 }
 
 void Manager_MainWindow::on_action_Look_triggered()
 {
+    if(now_page==0||now_page==2)
+        return ;
     int count=ui->table->currentRow();
     if(count==-1)
         return ;
-    QLineEdit *lineedit=(QLineEdit*)ui->table->cellWidget(count,1);
-    long id=qstr_to_long(lineedit->text());
-    for(int i=0;i<student.count();i++)
+    if(now_state==state_student)
     {
-        if(student[i].ID()==id)
+        now_page=2;
+        QLineEdit *lineedit=(QLineEdit*)(ui->table->cellWidget(count,1));
+        long id=qstr_to_long(lineedit->text());
+        for(int i=0;i<student.count();i++)
         {
-            student_object=&student[i];
-            break;
+            if(student[i].ID()==id)
+            {
+                student_object=&student[i];
+                break;
+            }
         }
+        close_all();
+        open_student();
+        set_studenttable_visible(true);
+        student_resize();
+        return ;
     }
-    open_student();
-    set_table_visivle(false);
-    set_studenttable_visible(true);
+    if(now_state==state_teacher)
+    {
+        now_page=2;
+        QLineEdit *lineedit=(QLineEdit*)(ui->table->cellWidget(count,1));
+        long id=qstr_to_long(lineedit->text());
+        for(int i=0;i<teacher.count();i++)
+        {
+            if(teacher[i].ID()==id)
+            {
+                teacher_object=&teacher[i];
+                break;
+            }
+        }
+        close_all();
+        open_teacher();
+        set_teachertable_visible(true);
+        teacher_resize();
+        return ;
+    }
+    if(now_state==state_lesson)
+    {
+        now_page=2;
+        QLineEdit *lineedit=(QLineEdit*)(ui->table->cellWidget(count,1));
+        long id=qstr_to_long(lineedit->text());
+        for(int i=0;i<lesson.count();i++)
+        {
+            if(lesson[i].ID()==id)
+            {
+                lesson_object=&lesson[i];
+                break;
+            }
+        }
+        close_all();
+        open_lesson();
+        set_lessontable_visible(true);
+        lesson_resize();
+        return ;
+    }
 }
 
 void Manager_MainWindow::on_action_back_triggered()
