@@ -724,7 +724,7 @@ void Manager_MainWindow::open_lesson()
     {
         addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),-3,-3,-3,-3,-3);//-3代表没出成绩
         return ;
-    }
+    }qDebug()<<count<<lesson_object;
     for(int i=0;i<count;i++)
     {
         now=student(lesson_object->stuscore[i].studentID);
@@ -1302,7 +1302,7 @@ void Manager_MainWindow::on_action_deleteobject_triggered()
         id=qstr_to_long(lineedit->text());
         if(now_state==state_student)
         {
-            Student now=student(id);
+            Student &now=student(id);
             long lessonid;
             for(int i=0;i<now.lessonID.count();i++)
             {
@@ -1322,7 +1322,7 @@ void Manager_MainWindow::on_action_deleteobject_triggered()
         }
         else if(now_state==state_teacher)
         {
-            Teacher now=teacher(id);
+            Teacher &now=teacher(id);
             if(now.lessonID.count()>0)
             {
                 QMessageBox::critical(this,"无法删除！","该教师仍有任课，请先将该教师的任课清空，才能删除该教师信息！",QMessageBox::Yes);
@@ -1334,7 +1334,7 @@ void Manager_MainWindow::on_action_deleteobject_triggered()
         }
         else if(now_state==state_lesson)
         {
-            Lesson now=lesson(id);
+            Lesson &now=lesson(id);
             long stuid;
             for(int i=0;i<now.stuscore.count();i++)
             {
@@ -1347,7 +1347,7 @@ void Manager_MainWindow::on_action_deleteobject_triggered()
             table_resize();
         }
     }
-  /*  else if(now_page==2)
+    else if(now_page==2)
     {
         int count;
         QLineEdit* lineedit;
@@ -1368,7 +1368,7 @@ void Manager_MainWindow::on_action_deleteobject_triggered()
                 return ;
             lineedit=(QLineEdit*)ui->table_student->cellWidget(count,1);
             long lesid=qstr_to_long(lineedit->text());
-            Lesson lesnow=lesson(lesid);
+            Lesson &lesnow=lesson(lesid);
             for(int i=0;i<lesnow.stuscore.count();i++)
             {
                 if(lesnow.stuscore[i].studentID==student_object->ID())
@@ -1377,6 +1377,8 @@ void Manager_MainWindow::on_action_deleteobject_triggered()
                     break;
                 }
             }
+            for(int i=0;i<lesnow.stuscore.count();i++)
+                qDebug()<<lesnow.stuscore[i].studentID<<lesnow.stuscore[i]._score;
             student_object->lessonID.remove_value(lesid);
             close_all();
             open_student();
@@ -1406,7 +1408,6 @@ void Manager_MainWindow::on_action_deleteobject_triggered()
             open_lesson();
             set_lessontable_visible(true);
             lesson_resize();
-
         }
-    }*/
+    }
 }
