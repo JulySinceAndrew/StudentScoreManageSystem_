@@ -52,6 +52,8 @@ private slots:
 
     void on_action_back_triggered();
 
+    void on_action_deleteobject_triggered();
+
 private:
     Ui::Manager_MainWindow *ui;
     QLabel* label_takeupspace;
@@ -119,6 +121,7 @@ private:
     QString int_to_qstr(int n);
     QString percentage_to_qstr(double per);
     long qstr_to_long(QString qs);
+    int qstr_to_int(QString qs);
 
 };
 
