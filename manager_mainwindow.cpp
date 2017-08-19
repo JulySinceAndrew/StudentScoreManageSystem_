@@ -716,8 +716,8 @@ void Manager_MainWindow::addrow_table_totalles(QString lessonname, long id, QStr
         return ;
     if(avescore==-3)
         return ;
-    lineedit=new QLineEdit(this);
-    lineedit->setText(percentage_to_qstr(passpercentage));
+    lineedit=new QLineEdit(this);qDebug()<<passpercentage;
+    lineedit->setText(percentage_to_qstr(passpercentage));qDebug()<<percentage_to_qstr(passpercentage);
     ui->table_lesson_total->setCellWidget(10,0,lineedit);
     lineedit->setReadOnly(true);
     lineedit=new QLineEdit(this);
@@ -992,7 +992,7 @@ void Manager_MainWindow::open_lesson()
             if(stuscore[i]==-1)
                 passcount++;
         }
-            addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),-1,-1,-1,-1,passcount/count);//-1代表记PF
+            addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),-1,-1,-1,-1,double(passcount)/double(count));//-1代表记PF
     }
     double avescore,avegpa;
     avescore=totalscore/count;
@@ -1027,7 +1027,7 @@ void Manager_MainWindow::open_lesson()
         if(stuscore[i]>=60)
             passcount++;
     }
-    addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),avescore,avegpa,midscore,midgpa,passcount/count);
+    addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),avescore,avegpa,midscore,midgpa,double(passcount)/double(count));
 }
 
 QString Manager_MainWindow::score_to_level(double score)
