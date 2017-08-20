@@ -24,8 +24,6 @@ private slots:
 private:
     Ui::Dialog_setsort *ui;
 
-signals:
-    void set_sort(bool sortway);
 };
 
 #endif // DIALOG_SETSORT_H

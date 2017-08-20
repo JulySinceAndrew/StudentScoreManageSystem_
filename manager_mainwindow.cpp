@@ -18,6 +18,8 @@ using std::string;
 using std::fstream;
 using std::ios_base;
 
+bool sort_modal=up;
+
 Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Manager_MainWindow)
@@ -33,7 +35,8 @@ Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
     label_takeupspace->setFixedSize(32,32);
     label_takeupspace->setPixmap(QPixmap(":/image/images/背景.png"));
     ui->toolBar_3->insertWidget(ui->action_studentnumber,label_takeupspace);
-    sort_modal=up;
+    cp_lesscore=NULL;
+    cp_stuscore=NULL;
     /*QActionGroup *group=new QActionGroup(this);
     QMenu* sortmenu=new QMenu(this);
     QAction *up=group->addAction("升序");
@@ -65,17 +68,11 @@ Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
     //open_student_file();
     //open_teacher_file();
     //open_lesson_file();
-
 }
 
 Manager_MainWindow::~Manager_MainWindow()
 {
     delete ui;
-}
-
-void Manager_MainWindow::receive_sort_modal(bool sortway)
-{
-    sort_modal=sortway;qDebug()<<sort_modal;
 }
 
 void Manager_MainWindow::closeEvent(QCloseEvent *event)
@@ -1703,6 +1700,135 @@ void Manager_MainWindow::new_lesson_list()
     ui->table_newlesson->setCellWidget(0,3,lineedit);
 }
 
+void Manager_MainWindow::sort_stu_id()
+{
+    long tempid;
+    int tempscore;
+    int count=lesson_object->stuscore.count();
+    if(sort_modal==up) //从小到大排序
+    {
+        for(int i=0;i<count-1;i++)
+        {
+            for(int j=0;j<count-i-1;j++)
+            {
+                if(cp_stuscore[j].studentID>cp_stuscore[j+1].studentID)
+                {
+                    tempid=cp_stuscore[j].studentID;
+                    cp_stuscore[j].studentID=cp_stuscore[j+1].studentID;
+                    cp_stuscore[j+1].studentID=tempid;
+                    tempscore=cp_stuscore[j]._score;
+                    cp_stuscore[j]._score=cp_stuscore[j+1]._score;
+                    cp_stuscore[j+1]._score=tempscore;
+                }
+            }
+        }
+    }
+    else if(sort_modal==false)  //降序排序
+    {
+        for(int i=0;i<count-1;i++)
+        {
+            for(int j=0;j<count-i-1;j++)
+            {
+                if(cp_stuscore[j].studentID<cp_stuscore[j+1].studentID)
+                {
+                    tempid=cp_stuscore[j].studentID;
+                    cp_stuscore[j].studentID=cp_stuscore[j+1].studentID;
+                    cp_stuscore[j+1].studentID=tempid;
+                    tempscore=cp_stuscore[j]._score;
+                    cp_stuscore[j]._score=cp_stuscore[j+1]._score;
+                    cp_stuscore[j+1]._score=tempscore;
+                }
+            }
+        }
+    }
+}
+
+void Manager_MainWindow::sort_stu_score()
+{
+    long tempid;
+    int tempscore;
+    int count=lesson_object->stuscore.count();
+    if(sort_modal==up) //从小到大排序
+    {
+        for(int i=0;i<count-1;i++)
+        {
+            for(int j=0;j<count-i-1;j++)
+            {
+                if(cp_stuscore[j]._score>cp_stuscore[j+1]._score)
+                {
+                    tempid=cp_stuscore[j].studentID;
+                    cp_stuscore[j].studentID=cp_stuscore[j+1].studentID;
+                    cp_stuscore[j+1].studentID=tempid;
+                    tempscore=cp_stuscore[j]._score;
+                    cp_stuscore[j]._score=cp_stuscore[j+1]._score;
+                    cp_stuscore[j+1]._score=tempscore;
+                }
+            }
+        }
+    }
+    else if(sort_modal==false)  //降序排序
+    {
+        for(int i=0;i<count-1;i++)
+        {
+            for(int j=0;j<count-i-1;j++)
+            {
+                if(cp_stuscore[j]._score<cp_stuscore[j+1]._score)
+                {
+                    tempid=cp_stuscore[j].studentID;
+                    cp_stuscore[j].studentID=cp_stuscore[j+1].studentID;
+                    cp_stuscore[j+1].studentID=tempid;
+                    tempscore=cp_stuscore[j]._score;
+                    cp_stuscore[j]._score=cp_stuscore[j+1]._score;
+                    cp_stuscore[j+1]._score=tempscore;
+                }
+            }
+        }
+    }
+}
+
+void Manager_MainWindow::sort_les_score()
+{
+    long tempid;
+    int tempscore;
+    int count=student_object->lessonID.count();
+    if(sort_modal==up) //从小到大排序
+    {
+        for(int i=0;i<count-1;i++)
+        {
+            for(int j=0;j<count-i-1;j++)
+            {
+                if(cp_lesscore[j]._score>cp_lesscore[j+1]._score)
+                {
+                    tempid=cp_lesscore[j].lessonID;
+                    cp_lesscore[j].lessonID=cp_lesscore[j+1].lessonID;
+                    cp_lesscore[j+1].lessonID=tempid;
+                    tempscore=cp_lesscore[j]._score;
+                    cp_lesscore[j]._score=cp_lesscore[j+1]._score;
+                    cp_lesscore[j+1]._score=tempscore;
+                }
+            }
+        }
+    }
+    else if(sort_modal==false)  //降序排序
+    {
+        for(int i=0;i<count-1;i++)
+        {
+            for(int j=0;j<count-i-1;j++)
+            {
+                if(cp_lesscore[j]._score<cp_lesscore[j+1]._score)
+                {
+                    tempid=cp_lesscore[j].lessonID;
+                    cp_lesscore[j].lessonID=cp_lesscore[j+1].lessonID;
+                    cp_lesscore[j+1].lessonID=tempid;
+                    tempscore=cp_lesscore[j]._score;
+                    cp_lesscore[j]._score=cp_lesscore[j+1]._score;
+                    cp_lesscore[j+1]._score=tempscore;
+                }
+            }
+        }
+    }
+}
+
 void Manager_MainWindow::on_action_student_triggered()
 {
     bool flag=ui->action_student->isChecked();
@@ -2344,4 +2470,88 @@ void Manager_MainWindow::on_action_setsort_triggered()
     Dialog_setsort* dialog=new Dialog_setsort(this);
     connect(dialog,SIGNAL(set_sort(bool)),this,SLOT(receive_sort_modal(bool)));
     dialog->show();
+}
+
+void Manager_MainWindow::on_action_studentnumber_triggered()
+{
+    if(!(now_page==2&&now_state==state_lesson))
+        return ;
+    if(ui->action_New->isChecked()||ui->action_edit->isChecked())
+        return ;
+    int count=lesson_object->stuscore.count();
+    if(count==0||count==1)
+        return ;
+    cp_stuscore=new score[count];
+    for(int i=0;i<count;i++)
+    {
+        cp_stuscore[i].studentID=lesson_object->stuscore[i].studentID;
+        cp_stuscore[i]._score=lesson_object->stuscore[i]._score;
+    }
+    sort_stu_id();
+    for(int i=0;i<count;i++)
+        ui->table_lesson->removeRow(0);
+    for(int i=0;i<count;i++)
+    {
+        addrow_table_lesson(student(cp_stuscore[i].studentID).name(),cp_stuscore[i].studentID,cp_stuscore[i]._score,false);
+    }
+    delete cp_stuscore;
+}
+
+void Manager_MainWindow::on_action_score_triggered()
+{
+    if(now_page!=2||now_state==state_teacher)
+        return ;
+    if(ui->action_New->isChecked()||ui->action_edit->isChecked())
+        return ;
+    if(now_state==state_lesson)
+    {
+        int count=ui->table_lesson->rowCount();
+        if(count==0||count==1)
+            return ;
+        cp_stuscore=new score[count];
+        for(int i=0;i<count;i++)
+        {
+            cp_stuscore[i].studentID=lesson_object->stuscore[i].studentID;
+            cp_stuscore[i]._score=lesson_object->stuscore[i]._score;
+        }
+        sort_stu_score();
+        for(int i=0;i<count;i++)
+            ui->table_lesson->removeRow(0);
+        for(int i=0;i<count;i++)
+        {
+            addrow_table_lesson(student(cp_stuscore[i].studentID).name(),cp_stuscore[i].studentID,cp_stuscore[i]._score,false);
+        }
+        delete cp_stuscore;
+        return ;
+    }
+    if(now_state==state_student)
+    {
+        int count=student_object->lessonID.count();
+        if(count==0||count==1)
+            return ;
+        cp_lesscore=new score_of_lesson[count];
+        for(int i=0;i<count;i++)
+        {
+            cp_lesscore[i].lessonID=student_object->lessonID[i];
+            Lesson& nowles=lesson(cp_lesscore[i].lessonID);
+            for(int j=0;j<nowles.stuscore.count();j++)
+            {
+                if(student_object->ID()==nowles.stuscore[j].studentID)
+                {
+                    cp_lesscore[i]._score=nowles.stuscore[j]._score;
+                    break;
+                }
+            }
+        }
+        sort_les_score();
+        for(int i=0;i<count;i++)
+            ui->table_student->removeRow(0);
+        for(int i=0;i<count;i++)
+        {
+            Lesson& nowles=lesson(cp_lesscore[i].lessonID);
+            addrow_table_student(nowles.name(),nowles.ID(),teacher(nowles.teacherID()).name(),nowles.credit(),cp_lesscore[i]._score,false);
+        }
+        delete cp_lesscore;
+        return ;
+    }
 }

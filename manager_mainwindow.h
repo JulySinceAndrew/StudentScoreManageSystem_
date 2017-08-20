@@ -34,8 +34,12 @@ public:
     explicit Manager_MainWindow(QWidget *parent = 0);
     ~Manager_MainWindow();
 
-public slots:
-    void receive_sort_modal(bool sortway);
+public:
+    struct score_of_lesson
+    {
+        long lessonID;
+        int _score;
+    };
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -62,6 +66,10 @@ private slots:
 
     void on_action_setsort_triggered();
 
+    void on_action_studentnumber_triggered();
+
+    void on_action_score_triggered();
+
 private:
     Ui::Manager_MainWindow *ui;
     QLabel* label_takeupspace;
@@ -70,10 +78,11 @@ private:
     vector_of_student student;
     vector_of_Teacher teacher;
     vector_of_Lesson lesson;
+    score_of_lesson* cp_lesscore;
+    score* cp_stuscore;
     Student* student_object;
     Teacher* teacher_object;
     Lesson* lesson_object;
-    bool sort_modal;
 
 private:
     void table_resize();
@@ -169,6 +178,9 @@ private:
     void critical_noles(int row);
     void critical_stu_repeatles(int row);
     void new_lesson_list();
+    void sort_stu_id();
+    void sort_stu_score();
+    void sort_les_score();
 };
 
 #endif // MANAGER_MAINWINDOW_H
