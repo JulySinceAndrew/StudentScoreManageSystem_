@@ -10,6 +10,7 @@
 #include"sstream"
 #include<QLineEdit>
 #include<QCloseEvent>
+#include"dialog_log.h"
 
 using std::ios_base;
 using std::fstream;
@@ -50,6 +51,10 @@ private slots:
     void on_action_score_triggered();
 
     void on_action_stuid_triggered();
+
+    void on_action_leave_triggered();
+
+    void on_action_relog_triggered();
 
 private:
     Ui::MainWindow_Teacher *ui;

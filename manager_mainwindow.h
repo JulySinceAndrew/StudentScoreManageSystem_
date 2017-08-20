@@ -21,6 +21,7 @@
 #include"vector.h"
 #include"vector_of.h"
 #include"dialog_setsort.h"
+#include"dialog_log.h"
 
 namespace Ui {
 class Manager_MainWindow;
@@ -69,6 +70,10 @@ private slots:
     void on_action_studentnumber_triggered();
 
     void on_action_score_triggered();
+
+    void on_action_exit_triggered();
+
+    void on_action_relog_triggered();
 
 private:
     Ui::Manager_MainWindow *ui;

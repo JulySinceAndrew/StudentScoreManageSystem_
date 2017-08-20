@@ -50,7 +50,7 @@ Manager_MainWindow::~Manager_MainWindow()
 }
 
 void Manager_MainWindow::closeEvent(QCloseEvent *event)
-{
+{qDebug()<<"ASDASDASDASDASdasdasdasd";
     save_file();
 }
 
@@ -2504,3 +2504,43 @@ void Manager_MainWindow::on_action_score_triggered()
     }
 }
 
+
+void Manager_MainWindow::on_action_exit_triggered()
+{
+    if(ui->action_New->isChecked())
+    {
+        QMessageBox::warning(this,"请先保存新增","请先保存当前新增，再退出学生成绩管理系统，否则当前新增会全部丢失",QMessageBox::Ok);
+        return ;
+    }
+    if(ui->action_edit->isChecked())
+    {
+        QMessageBox::critical(this,"保存修改！","请先保存当前修改，再退出学生成绩管理系统，否则当前修改会全部丢失！",QMessageBox::Ok);
+        return ;
+    }
+    int answer=QMessageBox::question(this,"退出登录","请问您是否确定要退出学生成绩管理系统？",QMessageBox::Yes,QMessageBox::No);
+    if(answer==QMessageBox::Yes)
+    {
+        close();
+    }
+}
+
+void Manager_MainWindow::on_action_relog_triggered()
+{
+    if(ui->action_New->isChecked())
+    {
+        QMessageBox::warning(this,"请先保存新增","请先保存当前新增，再退出登录，否则当前新增会全部丢失",QMessageBox::Ok);
+        return ;
+    }
+    if(ui->action_edit->isChecked())
+    {
+        QMessageBox::critical(this,"保存修改！","请先保存当前修改，再退出登录，否则当前修改会全部丢失！",QMessageBox::Ok);
+        return ;
+    }
+    int answer=QMessageBox::question(this,"退出登录","请问您是否确定要退出当前登录？",QMessageBox::Yes,QMessageBox::No);
+    if(answer==QMessageBox::Yes)
+    {
+        close();
+        Dialog_Log* dialog=new Dialog_Log;
+        dialog->show();
+    }
+}

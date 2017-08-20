@@ -5,6 +5,7 @@
 #include"specific_person.h"
 #include"lesson.h"
 #include"vector_of.h"
+#include"dialog_log.h"
 
 namespace Ui {
 class MainWindow_Student;
@@ -31,6 +32,10 @@ private slots:
     void on_action_look_triggered();
 
     void on_action_back_triggered();
+
+    void on_action_relog_triggered();
+
+    void on_action_leave_triggered();
 
 private:
     Ui::MainWindow_Student *ui;

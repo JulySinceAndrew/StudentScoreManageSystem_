@@ -786,3 +786,28 @@ void MainWindow_Teacher::on_action_stuid_triggered()
     }
     delete cp_stuscore;
 }
+
+void MainWindow_Teacher::on_action_leave_triggered()
+{
+    int answer=QMessageBox::question(this,"退出程序","请问您是否确定要退出当学生成绩管理系统？",QMessageBox::Yes,QMessageBox::No);
+    if(answer==QMessageBox::Yes)
+    {
+        close();
+    }
+}
+
+void MainWindow_Teacher::on_action_relog_triggered()
+{
+    if(ui->action_edit->isChecked())
+    {
+        QMessageBox::critical(this,"保存修改！","请先保存当前修改，再退出登录，否则当前修改会全部丢失！",QMessageBox::Ok);
+        return ;
+    }
+    int answer=QMessageBox::question(this,"退出登录","请问您是否确定要退出当前登录？",QMessageBox::Yes,QMessageBox::No);
+    if(answer==QMessageBox::Yes)
+    {
+        close();
+        Dialog_Log* dialog=new Dialog_Log;
+        dialog->show();
+    }
+}

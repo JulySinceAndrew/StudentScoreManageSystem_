@@ -21,22 +21,18 @@ int main(int argc,char*argv[])
     //Manager_MainWindow w;
     w.show();
   /*  fstream fout;
-    fout.open("account_student.bin",ios_base::out|ios_base::trunc);
-    int count=3;
+    fout.open("account_manager.bin",ios_base::out|ios_base::trunc);
+    int count=1;
     fout.write((char*)(&count),sizeof(int));
     long id;
-    id=2016011073;
-    fout.write((char*)(&id),sizeof(long));
-    id=2016000012;
-    fout.write((char*)(&id),sizeof(long));
-    id=2016000013;
+    id=9540802;
     fout.write((char*)(&id),sizeof(long));
     fout.close();
-    fout.open("password_student.bin",ios_base::out|ios_base::trunc);
+    fout.open("password_manager.bin",ios_base::out|ios_base::trunc);
     fout.write((char*)(&count),sizeof(int));
     char* p="123456";
     int c=6;
-    for(int i=0;i<3;i++)
+    for(int i=0;i<1;i++)
     {
         fout.write((char*)(&c),sizeof(int));
         fout.write(p,c);

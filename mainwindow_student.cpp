@@ -6,6 +6,7 @@
 #include<QComboBox>
 #include<QDebug>
 #include"dialog_setsort.h"
+#include<QMessageBox>
 
 extern bool sort_modal;
 extern long log_student_id;
@@ -612,4 +613,24 @@ void MainWindow_Student::on_action_back_triggered()
     ui->table_info1->setVisible(false);
     ui->table_info2->setVisible(false);
     ui->table_student->setVisible(true);
+}
+
+void MainWindow_Student::on_action_relog_triggered()
+{
+    int answer=QMessageBox::question(this,"退出登录","请问您是否确定要退出当前登录？",QMessageBox::Yes,QMessageBox::No);
+    if(answer==QMessageBox::Yes)
+    {
+        close();
+        Dialog_Log* dialog=new Dialog_Log;
+        dialog->show();
+    }
+}
+
+void MainWindow_Student::on_action_leave_triggered()
+{
+    int answer=QMessageBox::question(this,"退出程序","请问您是否确定要退出当学生成绩管理系统？",QMessageBox::Yes,QMessageBox::No);
+    if(answer==QMessageBox::Yes)
+    {
+        close();
+    }
 }
