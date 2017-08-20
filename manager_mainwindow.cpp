@@ -721,8 +721,6 @@ void Manager_MainWindow::addrow_table_totalles(QString lessonname, long id, QStr
     lineedit->setReadOnly(true);
     if(avescore==-5)
         return ;
-    if(avescore==-3)
-        return ;
     lineedit=new QLineEdit(this);qDebug()<<passpercentage;
     lineedit->setText(percentage_to_qstr(passpercentage));qDebug()<<percentage_to_qstr(passpercentage);
     ui->table_lesson_total->setCellWidget(10,0,lineedit);
@@ -731,8 +729,6 @@ void Manager_MainWindow::addrow_table_totalles(QString lessonname, long id, QStr
     lineedit->setText(percentage_to_qstr(1-passpercentage));
     ui->table_lesson_total->setCellWidget(11,0,lineedit);
     lineedit->setReadOnly(true);
-    if(avescore==-1)
-        return ;
     lineedit=new QLineEdit(this);
     lineedit->setText(avescore_to_qstr(avescore));
     ui->table_lesson_total->setCellWidget(6,0,lineedit);
@@ -965,49 +961,51 @@ void Manager_MainWindow::open_lesson()
     double totalscore,totalgpa;
     totalgpa=totalscore=0;
     int count=lesson_object->stuscore.count();
-    int *stuscore=new int[count];
+    int count_havescore=0;
+    int count_havelevel=0;
+    int passcount=0;
+    Vector<int> stuscore;
     Student now;
     if(count==0)
     {
        addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),-5,-5,-5,-5,-5);//-5代表空
        return ;
     }
-    nowscore=stuscore[0];
-    if(nowscore==-3)
-    {
-        addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),-3,-3,-3,-3,-3);//-3代表没出成绩
-        return ;
-    }qDebug()<<count<<lesson_object;
     for(int i=0;i<count;i++)
     {
         now=student(lesson_object->stuscore[i].studentID);
         nowscore=lesson_object->stuscore[i]._score;
+        if(nowscore!=-3)
+        {
+            count_havescore++;
+            if(nowscore==-1||nowscore>=60)
+                passcount++;
+        }
+        if(nowscore>=0)
+        {
+            count_havelevel++;
+            stuscore.add(nowscore);qDebug()<<nowscore<<lesson_object->stuscore[i].studentID;
+        }
         addrow_table_lesson(now.name(),now.ID(),nowscore,false);
         nowgpa=score_to_gpa(nowscore);
-        stuscore[i]=nowscore;
         if(nowscore>=0)
         {
            totalgpa+=nowgpa;
            totalscore+=nowscore;
         }
     }
-    if(nowscore==-1||nowscore==-2)
+    if(count_havescore==0)
     {
-        int passcount=0;
-        for(int i=0;i<count;i++)
-        {
-            if(stuscore[i]==-1)
-                passcount++;
-        }
-            addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),-1,-1,-1,-1,double(passcount)/double(count));//-1代表记PF
+        addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),-5,-5,-5,-5,-5);//-5代表空
+        return ;
     }
     double avescore,avegpa;
-    avescore=totalscore/count;
-    avegpa=totalgpa/count;
+    avescore=totalscore/count_havelevel;
+    avegpa=totalgpa/count_havelevel;
     int temp;
-    for(int i=0;i<count-1;i++) //从小到大排序
+    for(int i=0;i<count_havelevel-1;i++) //从小到大排序
     {
-        for(int j=0;j<count-i-1;j++)
+        for(int j=0;j<count_havelevel-i-1;j++)
         {
             if(stuscore[j]>stuscore[j+1])
             {
@@ -1018,23 +1016,17 @@ void Manager_MainWindow::open_lesson()
         }
     }
     double midscore,midgpa;
-    if(count%2==1)
+    if(count_havelevel%2==1)
     {
-        midscore=stuscore[count/2];
+        midscore=stuscore[count_havelevel/2];
         midgpa=score_to_gpa(midscore);
     }
     else
     {
-        midscore=(stuscore[count/2]+stuscore[count/2-1])/2;
-        midgpa=(score_to_gpa(stuscore[count/2])+score_to_gpa(stuscore[count/2-1]))/2;
+        midscore=double(stuscore[count_havelevel/2]+stuscore[count_havelevel/2-1])/2;
+        midgpa=double(score_to_gpa(stuscore[count_havelevel/2])+score_to_gpa(stuscore[count_havelevel/2-1]))/2;
     }
-    int passcount=0;
-    for(int i=0;i<count;i++)
-    {
-        if(stuscore[i]>=60)
-            passcount++;
-    }
-    addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),avescore,avegpa,midscore,midgpa,double(passcount)/double(count));
+    addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),avescore,avegpa,midscore,midgpa,double(passcount)/double(count_havescore));
 }
 
 QString Manager_MainWindow::score_to_level(double score)
@@ -1102,7 +1094,7 @@ QString Manager_MainWindow::score_to_str_gpa(double score)
     if(score==-1)
         return "N/A";
     else if(score==-2)
-        return "F";
+        return "N/A";
     else if(score==-3)
         return "*****";
     ostringstream os;
