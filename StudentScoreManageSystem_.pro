@@ -31,7 +31,6 @@ HEADERS += \
     dialog_log.h
 
 RESOURCES += \
-    images.qrc \
-    file.qrc
+    images.qrc
 
 RC_ICONS = my.ico

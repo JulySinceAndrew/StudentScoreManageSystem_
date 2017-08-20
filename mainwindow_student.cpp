@@ -8,6 +8,7 @@
 #include"dialog_setsort.h"
 
 extern bool sort_modal;
+extern long log_student_id;
 
 #define row_height 30
 #define top_height 50
@@ -33,7 +34,8 @@ MainWindow_Student::MainWindow_Student(QWidget *parent) :
     ui->table_info1->setVisible(false);
     ui->table_info2->setVisible(false);
     now_page=0;
-    stuid=2016011073;
+    stuid=log_student_id;
+    ui->label_change->setText(long_to_qstr(stuid));
     open_all();
 }
 

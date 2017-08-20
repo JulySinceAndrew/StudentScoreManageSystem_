@@ -15,11 +15,11 @@ using namespace std;
 int main(int argc,char*argv[])
 {
     QApplication app(argc,argv);
-    Dialog_Log w;
+   // Dialog_Log w;
     //MainWindow_Student w;
     //MainWindow_Teacher w;
     //Manager_MainWindow w;
-    w.show();
+    //w.show();
   /*  fstream fout;
     fout.open("account_student.bin",ios_base::out|ios_base::trunc);
     int count=3;

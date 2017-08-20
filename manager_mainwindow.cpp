@@ -19,6 +19,7 @@ using std::fstream;
 using std::ios_base;
 
 bool sort_modal=up;
+extern long log_manager_id;
 
 Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -40,37 +41,7 @@ Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
     cp_lesscore=NULL;
     cp_stuscore=NULL;
     is_searching=false;
-    /*QActionGroup *group=new QActionGroup(this);
-    QMenu* sortmenu=new QMenu(this);
-    QAction *up=group->addAction("升序");
-    QAction *down=group->addAction("降序");
-    up->setCheckable(true);
-    down->setCheckable(true);
-    up->setChecked(true);
-    sortmenu->addAction(up);
-    sortmenu->addAction(down);
-    ui->action_setsort->setMenu(sortmenu);*/
-  /*  student[0].lessonID.add(20000000);lesson(20000000).stuscore.add(score(2016011073,100)); //weijifen
-    student[0].lessonID.add(20000001);lesson(20000001).stuscore.add(score(2016011073,95));  //dawu
-    student[0].lessonID.add(20000002);lesson(20000002).stuscore.add(score(2016011073,92));  //xiandai
-    student[1].lessonID.add(20000000);lesson(20000000).stuscore.add(score(2016000012,92)); //weijifen
-    student[1].lessonID.add(20000001);lesson(20000001).stuscore.add(score(2016000012,89));  //dawu
-    student[1].lessonID.add(20000002);lesson(20000002).stuscore.add(score(2016000012,87));  //xiandai
-    student[1].set_ID(2016000012),student[1].set_name("张叶");
-    student[2].lessonID.add(20000000);lesson(20000000).stuscore.add(score(2016000013,93)); //weijifen
-    student[2].lessonID.add(20000001);lesson(20000001).stuscore.add(score(2016000013,97));  //dawu
-    student[2].lessonID.add(20000002);lesson(20000002).stuscore.add(score(2016000013,96));  //xiandai
-    student[2].set_ID(2016000013),student[2].set_name("王舒"),student[2].set_sex(woman);
-    teacher[0].lessonID.add(20000000);
-    teacher[1].lessonID.add(20000001),teacher[1].set_name("安宇");
-    teacher[2].lessonID.add(20000002),teacher[2].set_name("瞿燕辉");
-    lesson[0].set_teacherID(100000);
-    lesson[1].set_teacherID(100001),lesson[1].set_name("大学物理"),lesson[1].set_credit(4);
-    lesson[2].set_teacherID(100002),lesson[2].set_name("线性代数"),lesson[2].set_credit(2);*/
-    //save_file();
-    //open_student_file();
-    //open_teacher_file();
-    //open_lesson_file();
+    ui->label_welcome_change->setText(long_to_qstr(log_manager_id));
 }
 
 Manager_MainWindow::~Manager_MainWindow()

@@ -12,6 +12,7 @@
 #define down false
 
 extern bool sort_modal;
+extern long log_teacher_id;
 
 MainWindow_Teacher::MainWindow_Teacher(QWidget *parent) :
     QMainWindow(parent),
@@ -29,7 +30,8 @@ MainWindow_Teacher::MainWindow_Teacher(QWidget *parent) :
     ui->table_lesson_total->setVisible(false);
     now_page=0;
     cp_stuscore=NULL;
-    teaid=100001;
+    teaid=log_teacher_id;
+    ui->label_3->setText(long_to_qstr(teaid));
     open_all();
 }
 
