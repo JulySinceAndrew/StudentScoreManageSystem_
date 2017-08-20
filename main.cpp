@@ -1,6 +1,7 @@
 #include<QApplication>
 #include<QDebug>
 #include"manager_mainwindow.h"
+#include"mainwindow_student.h"
 #include<vector.h>
 #include<vector_of.h>
 #include<specific_person.h>
@@ -12,7 +13,8 @@ using namespace std;
 int main(int argc,char*argv[])
 {
     QApplication app(argc,argv);
-    Manager_MainWindow w;
+    MainWindow_Student w;
+    //Manager_MainWindow w;
     w.show();
    /* fstream fout;
     fout.open("lessonlist.bin",ios_base::out|ios_base::trunc);

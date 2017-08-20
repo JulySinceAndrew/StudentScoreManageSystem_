@@ -2,14 +2,16 @@ QT += widgets
 
 FORMS += \
     manager_mainwindow.ui \
-    dialog_setsort.ui
+    dialog_setsort.ui \
+    mainwindow_student.ui
 
 SOURCES += \
     manager_mainwindow.cpp \
     main.cpp \
     object.cpp \
     lesson.cpp \
-    dialog_setsort.cpp
+    dialog_setsort.cpp \
+    mainwindow_student.cpp
 
 HEADERS += \
     manager_mainwindow.h \
@@ -19,7 +21,8 @@ HEADERS += \
     specific_person.h \
     lesson.h \
     vector_of.h \
-    dialog_setsort.h
+    dialog_setsort.h \
+    mainwindow_student.h
 
 RESOURCES += \
     images.qrc \

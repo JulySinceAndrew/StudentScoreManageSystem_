@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>767</width>
-      <height>523</height>
+      <width>800</width>
+      <height>600</height>
      </rect>
     </property>
     <property name="text">
@@ -431,12 +431,15 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="separator"/>
    <addaction name="action_student"/>
    <addaction name="action_teacher"/>
    <addaction name="action_lesson"/>
+   <addaction name="separator"/>
    <addaction name="action_back"/>
    <addaction name="action_relog"/>
    <addaction name="action_exit"/>
+   <addaction name="separator"/>
   </widget>
   <widget class="QToolBar" name="toolBar_3">
    <property name="windowTitle">

@@ -25,7 +25,7 @@ Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
     ui(new Ui::Manager_MainWindow)
 {
     ui->setupUi(this);
-    setFixedSize(767,523);
+    setFixedSize(800,600);
     now_page=0;
     now_state=state_welcome;
     set_all_visible(false);
@@ -36,6 +36,7 @@ Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
     label_takeupspace->setPixmap(QPixmap(":/image/images/学生成绩管理系统.png"));
     label_takeupspace->setScaledContents(true);
     ui->toolBar_3->insertWidget(ui->action_studentnumber,label_takeupspace);
+    ui->toolBar_3->insertSeparator(ui->action_studentnumber);
     cp_lesscore=NULL;
     cp_stuscore=NULL;
     is_searching=false;
