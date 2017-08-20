@@ -25,6 +25,8 @@ private slots:
 
     void on_lineedit_account_returnPressed();
 
+    void on_pushButton_help_clicked();
+
 private:
     Ui::Dialog_Log *ui;
     long qstr_to_long(QString qs);

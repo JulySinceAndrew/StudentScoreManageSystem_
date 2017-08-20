@@ -9,6 +9,7 @@
 #include"mainwindow_student.h"
 #include"mainwindow_teacher.h"
 #include"manager_mainwindow.h"
+#include"dialog_help.h"
 
 using std::fstream;
 using std::ios_base;
@@ -31,6 +32,7 @@ Dialog_Log::Dialog_Log(QWidget *parent) :
     QRegExp reg2("20[0-9]{8}");//学号
     QValidator *val2=new QRegExpValidator(reg2,this);
     ui->lineedit_account->setValidator(val2);
+    setFixedSize(460,460);
 }
 
 Dialog_Log::~Dialog_Log()
@@ -202,3 +204,9 @@ long Dialog_Log::qstr_to_long(QString qs)
     return id;
 }
 
+
+void Dialog_Log::on_pushButton_help_clicked()
+{
+    Dialog_Help w(this);
+    w.exec();
+}

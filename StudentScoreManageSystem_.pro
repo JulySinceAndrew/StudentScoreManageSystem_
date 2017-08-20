@@ -5,7 +5,8 @@ FORMS += \
     dialog_setsort.ui \
     mainwindow_student.ui \
     mainwindow_teacher.ui \
-    dialog_log.ui
+    dialog_log.ui \
+    dialog_help.ui
 
 SOURCES += \
     manager_mainwindow.cpp \
@@ -15,7 +16,8 @@ SOURCES += \
     dialog_setsort.cpp \
     mainwindow_student.cpp \
     mainwindow_teacher.cpp \
-    dialog_log.cpp
+    dialog_log.cpp \
+    dialog_help.cpp
 
 HEADERS += \
     manager_mainwindow.h \
@@ -28,7 +30,8 @@ HEADERS += \
     dialog_setsort.h \
     mainwindow_student.h \
     mainwindow_teacher.h \
-    dialog_log.h
+    dialog_log.h \
+    dialog_help.h
 
 RESOURCES += \
     images.qrc
