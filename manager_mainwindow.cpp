@@ -32,6 +32,18 @@ Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
     QLabel* label_takeupspace=new QLabel(this);
     label_takeupspace->setFixedSize(32,32);
     label_takeupspace->setPixmap(QPixmap(":/image/images/背景.png"));
+    ui->toolBar_3->insertWidget(ui->action_studentnumber,label_takeupspace);
+    sort_modal=up;
+    /*QActionGroup *group=new QActionGroup(this);
+    QMenu* sortmenu=new QMenu(this);
+    QAction *up=group->addAction("升序");
+    QAction *down=group->addAction("降序");
+    up->setCheckable(true);
+    down->setCheckable(true);
+    up->setChecked(true);
+    sortmenu->addAction(up);
+    sortmenu->addAction(down);
+    ui->action_setsort->setMenu(sortmenu);*/
   /*  student[0].lessonID.add(20000000);lesson(20000000).stuscore.add(score(2016011073,100)); //weijifen
     student[0].lessonID.add(20000001);lesson(20000001).stuscore.add(score(2016011073,95));  //dawu
     student[0].lessonID.add(20000002);lesson(20000002).stuscore.add(score(2016011073,92));  //xiandai
@@ -59,6 +71,11 @@ Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
 Manager_MainWindow::~Manager_MainWindow()
 {
     delete ui;
+}
+
+void Manager_MainWindow::receive_sort_modal(bool sortway)
+{
+    sort_modal=sortway;qDebug()<<sort_modal;
 }
 
 void Manager_MainWindow::closeEvent(QCloseEvent *event)
@@ -2320,4 +2337,11 @@ void Manager_MainWindow::on_action_Save_triggered()
             set_lessontable_visible(true);
         }
     }
+}
+
+void Manager_MainWindow::on_action_setsort_triggered()
+{
+    Dialog_setsort* dialog=new Dialog_setsort(this);
+    connect(dialog,SIGNAL(set_sort(bool)),this,SLOT(receive_sort_modal(bool)));
+    dialog->show();
 }

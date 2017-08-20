@@ -20,6 +20,7 @@
 #include"lesson.h"
 #include"vector.h"
 #include"vector_of.h"
+#include"dialog_setsort.h"
 
 namespace Ui {
 class Manager_MainWindow;
@@ -32,6 +33,9 @@ class Manager_MainWindow : public QMainWindow
 public:
     explicit Manager_MainWindow(QWidget *parent = 0);
     ~Manager_MainWindow();
+
+public slots:
+    void receive_sort_modal(bool sortway);
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -56,6 +60,8 @@ private slots:
 
     void on_action_Save_triggered();
 
+    void on_action_setsort_triggered();
+
 private:
     Ui::Manager_MainWindow *ui;
     QLabel* label_takeupspace;
@@ -67,6 +73,7 @@ private:
     Student* student_object;
     Teacher* teacher_object;
     Lesson* lesson_object;
+    bool sort_modal;
 
 private:
     void table_resize();
