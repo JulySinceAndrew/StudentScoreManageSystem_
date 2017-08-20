@@ -3,7 +3,9 @@ QT += widgets
 FORMS += \
     manager_mainwindow.ui \
     dialog_setsort.ui \
-    mainwindow_student.ui
+    mainwindow_student.ui \
+    mainwindow_teacher.ui \
+    dialog_log.ui
 
 SOURCES += \
     manager_mainwindow.cpp \
@@ -11,7 +13,9 @@ SOURCES += \
     object.cpp \
     lesson.cpp \
     dialog_setsort.cpp \
-    mainwindow_student.cpp
+    mainwindow_student.cpp \
+    mainwindow_teacher.cpp \
+    dialog_log.cpp
 
 HEADERS += \
     manager_mainwindow.h \
@@ -22,7 +26,9 @@ HEADERS += \
     lesson.h \
     vector_of.h \
     dialog_setsort.h \
-    mainwindow_student.h
+    mainwindow_student.h \
+    mainwindow_teacher.h \
+    dialog_log.h
 
 RESOURCES += \
     images.qrc \

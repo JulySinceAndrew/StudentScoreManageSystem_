@@ -2,6 +2,7 @@
 #include<QDebug>
 #include"manager_mainwindow.h"
 #include"mainwindow_student.h"
+#include"mainwindow_teacher.h"
 #include<vector.h>
 #include<vector_of.h>
 #include<specific_person.h>
@@ -13,7 +14,8 @@ using namespace std;
 int main(int argc,char*argv[])
 {
     QApplication app(argc,argv);
-    MainWindow_Student w;
+    //MainWindow_Student w;
+    MainWindow_Teacher w;
     //Manager_MainWindow w;
     w.show();
    /* fstream fout;

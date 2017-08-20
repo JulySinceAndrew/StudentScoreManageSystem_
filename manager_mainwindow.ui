@@ -402,10 +402,10 @@
    <zorder>table_student_total</zorder>
    <zorder>label_welcome_change</zorder>
    <zorder>table_teacher_total</zorder>
-   <zorder>table_teacher</zorder>
    <zorder>table_lesson</zorder>
    <zorder>table_lesson_total</zorder>
    <zorder>table_newlesson</zorder>
+   <zorder>table_teacher</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

@@ -30,7 +30,6 @@ MainWindow_Student::MainWindow_Student(QWidget *parent) :
     label_takeupspace->setScaledContents(true);
     ui->toolBar_2->insertWidget(ui->action_score,label_takeupspace);
     ui->toolBar_2->insertSeparator(ui->action_score);
-    label_takeupspace->show();
     ui->table_info1->setVisible(false);
     ui->table_info2->setVisible(false);
     now_page=0;
@@ -236,8 +235,6 @@ void MainWindow_Student::open_a_student()
         lineedit->setReadOnly(true);
         ui->table_student_total->setCellWidget(0,4,lineedit);
     }
-
-
 }
 
 void MainWindow_Student::addrow_table_student(QString lessonname, long id, QString teachername, int credit, int score)
@@ -380,7 +377,7 @@ void MainWindow_Student::set_info(long id)
 {
     ui->table_info1->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->table_info2->setEditTriggers(QAbstractItemView::NoEditTriggers);qDebug()<<"debudao";
-    Lesson now=lesson(id);qDebug()<<"!!!!";qDebug()<<now.name()<<id;
+    Lesson now=lesson(id);
     ui->table_info1->setItem(0,0,new QTableWidgetItem(now.name()));
     ui->table_info1->setItem(0,1,new QTableWidgetItem(long_to_qstr(now.ID())));
     ui->table_info1->setItem(0,2,new QTableWidgetItem(teacher(now.teacherID()).name()));
@@ -412,6 +409,32 @@ void MainWindow_Student::set_info(long id)
         }
         if(now.stuscore[i].studentID==a_student->ID())
             youscore=nowscore;
+    }
+    if(count_havescore==0)
+    {
+        ui->table_info1->setItem(0,5,new QTableWidgetItem(QString("****")));
+        ui->table_info1->setItem(0,6,new QTableWidgetItem(QString("****")));
+        ui->table_info2->setItem(0,0,new QTableWidgetItem(int_to_qstr(youscore)));
+        ui->table_info2->setItem(0,1,new QTableWidgetItem(score_to_str_gpa(youscore)));
+        ui->table_info2->setItem(0,2,new QTableWidgetItem(score_to_level(youscore)));
+        ui->table_info2->setItem(1,0,new QTableWidgetItem(QString("****")));
+        ui->table_info2->setItem(1,1,new QTableWidgetItem(QString("****")));
+        ui->table_info2->setItem(2,0,new QTableWidgetItem(QString("****")));
+        ui->table_info2->setItem(2,1,new QTableWidgetItem(QString("****")));
+        return ;
+    }
+    if(count_havelevel==0)
+    {
+        ui->table_info1->setItem(0,5,new QTableWidgetItem(percentage_to_qstr(count_pass/count_havescore)));
+        ui->table_info1->setItem(0,6,new QTableWidgetItem(percentage_to_qstr(1-count_pass/count_havescore)));
+        ui->table_info2->setItem(0,0,new QTableWidgetItem(int_to_qstr(youscore)));
+        ui->table_info2->setItem(0,1,new QTableWidgetItem(score_to_str_gpa(youscore)));
+        ui->table_info2->setItem(0,2,new QTableWidgetItem(score_to_level(youscore)));
+        ui->table_info2->setItem(1,0,new QTableWidgetItem(QString("N/A")));
+        ui->table_info2->setItem(1,1,new QTableWidgetItem(QString("N/A")));
+        ui->table_info2->setItem(2,0,new QTableWidgetItem(QString("N/A")));
+        ui->table_info2->setItem(2,1,new QTableWidgetItem(QString("N/A")));
+        return ;
     }
     int temp;
     for(int i=0;i<count_havelevel-1;i++) //从小到大排序
@@ -446,12 +469,6 @@ void MainWindow_Student::set_info(long id)
     ui->table_info2->setItem(1,1,new QTableWidgetItem(avegpa_to_qstr(totalgpa/count_havelevel)));
     ui->table_info2->setItem(2,0,new QTableWidgetItem(avescore_to_qstr(midscore)));
     ui->table_info2->setItem(2,1,new QTableWidgetItem(avegpa_to_qstr(midgpa)));
-
-
-
-
-
-
 }
 
 QString MainWindow_Student::score_to_level(double score)
