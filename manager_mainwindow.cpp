@@ -33,10 +33,12 @@ Manager_MainWindow::Manager_MainWindow(QWidget *parent) :
     open_file();
     QLabel* label_takeupspace=new QLabel(this);
     label_takeupspace->setFixedSize(32,32);
-    label_takeupspace->setPixmap(QPixmap(":/image/images/背景.png"));
+    label_takeupspace->setPixmap(QPixmap(":/image/images/学生成绩管理系统.png"));
+    label_takeupspace->setScaledContents(true);
     ui->toolBar_3->insertWidget(ui->action_studentnumber,label_takeupspace);
     cp_lesscore=NULL;
     cp_stuscore=NULL;
+    is_searching=false;
     /*QActionGroup *group=new QActionGroup(this);
     QMenu* sortmenu=new QMenu(this);
     QAction *up=group->addAction("升序");
@@ -85,15 +87,6 @@ void Manager_MainWindow::set_welcome_visible(bool arg)
     ui->label_welcome_fixed->setVisible(arg);
     ui->label_welcome_fixed2->setVisible(arg);
     ui->label_welcome_change->setVisible(arg);
-}
-
-void Manager_MainWindow::set_serach_visible(bool arg)
-{
-    ui->label_search->setVisible(arg);
-    ui->comboBox_search->setVisible(arg);
-    ui->lineEdit_search->setVisible(arg);
-    ui->pushButton_search->setVisible(arg);
-    ui->pushButton_lookall->setVisible(arg);
 }
 
 void Manager_MainWindow::set_studenttable_visible(bool arg)
@@ -1839,7 +1832,6 @@ void Manager_MainWindow::on_action_student_triggered()
     }
     close_all();
     set_welcome_visible(!flag);
-    set_serach_visible(flag);
     set_table_visivle(flag);
     if(!flag)
     {
@@ -1865,7 +1857,6 @@ void Manager_MainWindow::on_action_teacher_triggered()
     }
     close_all();
     set_welcome_visible(!flag);
-    set_serach_visible(flag);
     set_table_visivle(flag);
     if(!flag)
     {
@@ -1891,7 +1882,6 @@ void Manager_MainWindow::on_action_lesson_triggered()
     }
     close_all();
     set_welcome_visible(!flag);
-    set_serach_visible(flag);
     set_table_visivle(flag);
     if(!flag)
     {
@@ -1960,7 +1950,6 @@ void Manager_MainWindow::on_action_New_triggered()
                 ui->table_newlesson->removeRow(0);
                 ui->table_newlesson->setVisible(false);
                 ui->table->setVisible(true);
-                set_serach_visible(true);
                 return ;
             }
         }
@@ -1995,7 +1984,6 @@ void Manager_MainWindow::on_action_New_triggered()
         {
            ui->table_newlesson->setVisible(true);
            ui->table->setVisible(false);
-           set_serach_visible(false);
            new_lesson_list();
            return ;
         }
@@ -2118,7 +2106,6 @@ void Manager_MainWindow::clear_lesson()
 void Manager_MainWindow::set_all_visible(bool arg)
 {
     set_welcome_visible(arg);
-    set_serach_visible(arg);
     set_studenttable_visible(arg);
     set_table_visivle(arg);
     set_teachertable_visible(arg);
@@ -2219,7 +2206,6 @@ void Manager_MainWindow::on_action_back_triggered()
         else
             open_lessonlist();
         set_table_visivle(true);
-        set_serach_visible(true);
     }
 }
 
@@ -2399,7 +2385,6 @@ void Manager_MainWindow::on_action_Save_triggered()
                 ui->table_newlesson->removeRow(0);
                 ui->table_newlesson->setVisible(false);
                 set_table_visivle(true);
-                set_serach_visible(true);
                 int count=lesson.count()-1;
                 teacher(lesson[count].teacherID()).lessonID.add(lesson[count].ID());
                 addrow_table_lessonlist(lesson[count].name(),lesson[count].ID(),teacher(lesson[count].teacherID()).name(),false);
@@ -2468,7 +2453,6 @@ void Manager_MainWindow::on_action_Save_triggered()
 void Manager_MainWindow::on_action_setsort_triggered()
 {
     Dialog_setsort* dialog=new Dialog_setsort(this);
-    connect(dialog,SIGNAL(set_sort(bool)),this,SLOT(receive_sort_modal(bool)));
     dialog->show();
 }
 
@@ -2555,3 +2539,4 @@ void Manager_MainWindow::on_action_score_triggered()
         return ;
     }
 }
+

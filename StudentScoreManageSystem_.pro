@@ -24,3 +24,5 @@ HEADERS += \
 RESOURCES += \
     images.qrc \
     file.qrc
+
+RC_ICONS = my.ico

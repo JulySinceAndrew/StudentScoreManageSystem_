@@ -75,6 +75,7 @@ private:
     QLabel* label_takeupspace;
     int now_page;
     int now_state;
+    bool is_searching;
     vector_of_student student;
     vector_of_Teacher teacher;
     vector_of_Lesson lesson;
@@ -97,7 +98,6 @@ private:
     void clear_lesson();
     void set_all_visible(bool arg);
     void set_welcome_visible(bool arg);
-    void set_serach_visible(bool arg);
     void set_studenttable_visible(bool arg);
     void set_teachertable_visible(bool arg);
     void set_lessontable_visible(bool arg);

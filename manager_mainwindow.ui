@@ -11,68 +11,9 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>学生成绩管理系统-管理员模式</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label_search">
-    <property name="geometry">
-     <rect>
-      <x>21</x>
-      <y>15</y>
-      <width>48</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>查询(&amp;S)</string>
-    </property>
-    <property name="buddy">
-     <cstring>lineEdit_search</cstring>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_search">
-    <property name="geometry">
-     <rect>
-      <x>66</x>
-      <y>13</y>
-      <width>71</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>学号</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>姓名</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_search">
-    <property name="geometry">
-     <rect>
-      <x>137</x>
-      <y>13</y>
-      <width>133</width>
-      <height>20</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_search">
-    <property name="geometry">
-     <rect>
-      <x>269</x>
-      <y>11</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>搜索</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_background">
     <property name="geometry">
      <rect>
@@ -158,19 +99,6 @@
       <string>性别</string>
      </property>
     </column>
-   </widget>
-   <widget class="QPushButton" name="pushButton_lookall">
-    <property name="geometry">
-     <rect>
-      <x>635</x>
-      <y>11</y>
-      <width>75</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>查看全部</string>
-    </property>
    </widget>
    <widget class="QTableWidget" name="table_student">
     <property name="geometry">
@@ -467,14 +395,9 @@
     </column>
    </widget>
    <zorder>label_background</zorder>
-   <zorder>label_search</zorder>
-   <zorder>comboBox_search</zorder>
-   <zorder>lineEdit_search</zorder>
-   <zorder>pushButton_search</zorder>
    <zorder>label_welcome_fixed2</zorder>
    <zorder>label_welcome_fixed</zorder>
    <zorder>table</zorder>
-   <zorder>pushButton_lookall</zorder>
    <zorder>table_student</zorder>
    <zorder>table_student_total</zorder>
    <zorder>label_welcome_change</zorder>
