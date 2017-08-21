@@ -40,12 +40,12 @@ MainWindow_Teacher::~MainWindow_Teacher()
     delete ui;
 }
 
-void MainWindow_Teacher::closeEvent(QCloseEvent *event)
+void MainWindow_Teacher::closeEvent(QCloseEvent *event) //捕捉关闭事件 保存文件
 {
     save_lesson_file();
 }
 
-void MainWindow_Teacher::open_all()
+void MainWindow_Teacher::open_all() //打开所有文件
 {
     open_a_teacher_file();
     open_lesson_file();
@@ -53,7 +53,7 @@ void MainWindow_Teacher::open_all()
     open_a_teacher();
 }
 
-void MainWindow_Teacher::open_a_teacher_file()
+void MainWindow_Teacher::open_a_teacher_file() //打开对应教师的文件
 {
     QString prefix="tea_";
     QString suffix=".bin";
@@ -83,7 +83,7 @@ void MainWindow_Teacher::open_a_teacher_file()
     delete []name;
 }
 
-void MainWindow_Teacher::open_lesson_file()
+void MainWindow_Teacher::open_lesson_file() //打开所有课程的文件
 {
     QString prefix="les_";
     QString houzhui=".bin";
@@ -131,7 +131,7 @@ void MainWindow_Teacher::open_lesson_file()
     }
 }
 
-void MainWindow_Teacher::open_student_file()
+void MainWindow_Teacher::open_student_file() //打开所有学生的文件
 {
     fstream fin;
     fstream finstu;
@@ -174,7 +174,7 @@ void MainWindow_Teacher::open_student_file()
     }
 }
 
-void MainWindow_Teacher::save_lesson_file()
+void MainWindow_Teacher::save_lesson_file() //保存所有课程文件
 {
     fstream fout;
     QString prefix="les_";
@@ -214,7 +214,7 @@ void MainWindow_Teacher::save_lesson_file()
     }
 }
 
-void MainWindow_Teacher::open_a_teacher()
+void MainWindow_Teacher::open_a_teacher() //构建显示信息的table
 {
     ui->table_teacher_total->setItem(0,0,new QTableWidgetItem(a_teacher->name()));
     ui->table_teacher_total->setItem(0,1,new QTableWidgetItem(long_to_qstr(a_teacher->ID())));
@@ -240,7 +240,7 @@ void MainWindow_Teacher::open_a_teacher()
 
 }
 
-void MainWindow_Teacher::open_lesson()
+void MainWindow_Teacher::open_lesson() //显示某门课程的详细信息
 {
     double nowscore,nowgpa;
     double totalscore,totalgpa;
@@ -319,7 +319,7 @@ void MainWindow_Teacher::open_lesson()
     addrow_table_totalles(lesson_object->name(),lesson_object->ID(),a_teacher->name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),avescore,avegpa,midscore,midgpa,double(passcount)/double(count_havescore));
 }
 
-void MainWindow_Teacher::clear_lesson()
+void MainWindow_Teacher::clear_lesson() //清空显示详细信息的table
 {
     int count;
     count=ui->table_lesson_total->columnCount();
@@ -329,7 +329,7 @@ void MainWindow_Teacher::clear_lesson()
     for(int i=0;i<count;i++)
         ui->table_lesson->removeRow(0);
 }
-
+//为显示详细信息的table新增一行的函数
 void MainWindow_Teacher::addrow_table_totalles(QString lessonname, long id, QString teachername, long teacherid, int credit, int stunumber, double avescore, double avegpa, double midscore, double midgpa, double passpencentage)
 {
     ui->table_lesson_total->insertColumn(0);
@@ -385,7 +385,7 @@ void MainWindow_Teacher::addrow_table_totalles(QString lessonname, long id, QStr
     ui->table_lesson_total->setCellWidget(9,0,lineedit);
     lineedit->setReadOnly(true);
 }
-
+//为显示详细信息的table新增一行的函数
 void MainWindow_Teacher::addrow_table_lesson(QString stuname, long stuid, int score, bool editable)
 {
     int count=ui->table_lesson->rowCount();
@@ -413,7 +413,7 @@ void MainWindow_Teacher::addrow_table_lesson(QString stuname, long stuid, int sc
     lineedit->setReadOnly(!editable);
 }
 
-bool MainWindow_Teacher::check_lesson()
+bool MainWindow_Teacher::check_lesson()//检测修改是否符合要求
 {
     QLineEdit* lineedit;
     for(int i=0;i<ui->table_lesson->rowCount();i++)
@@ -429,7 +429,7 @@ bool MainWindow_Teacher::check_lesson()
     return true;
 }
 
-QLineEdit *MainWindow_Teacher::lineedit_score()
+QLineEdit *MainWindow_Teacher::lineedit_score() //返回一个有符合成绩格式验证器的lineedit
 {
     QLineEdit* lineedit=new QLineEdit(this);
     QRegExp rx("^[0-9]{1,2}$|^100$|^-1$|^-2$|^-3$");
@@ -582,7 +582,7 @@ QString MainWindow_Teacher::percentage_to_qstr(double per)
     return QString::fromStdString(os.str());
 }
 
-void MainWindow_Teacher::sort_stu_id()
+void MainWindow_Teacher::sort_stu_id() //按照学号排序
 {
     long tempid;
     int tempscore;
@@ -625,7 +625,7 @@ void MainWindow_Teacher::sort_stu_id()
     }
 }
 
-void MainWindow_Teacher::sort_stu_score()
+void MainWindow_Teacher::sort_stu_score() //按照成绩排序
 {
     long tempid;
     int tempscore;
@@ -668,7 +668,7 @@ void MainWindow_Teacher::sort_stu_score()
     }
 }
 
-void MainWindow_Teacher::on_action_back_triggered()
+void MainWindow_Teacher::on_action_back_triggered() //后退
 {
     if(now_page==0||ui->action_edit->isChecked())
         return ;
@@ -680,7 +680,7 @@ void MainWindow_Teacher::on_action_back_triggered()
     clear_lesson();
 }
 
-void MainWindow_Teacher::on_action_look_triggered()
+void MainWindow_Teacher::on_action_look_triggered() //查看
 {
     if(now_page==1)
         return ;
@@ -696,7 +696,7 @@ void MainWindow_Teacher::on_action_look_triggered()
     open_lesson();
 }
 
-void MainWindow_Teacher::on_action_edit_triggered()
+void MainWindow_Teacher::on_action_edit_triggered() //编辑
 {
     bool flag=ui->action_edit->isChecked();
     if(now_page==0||flag==false)
@@ -712,7 +712,7 @@ void MainWindow_Teacher::on_action_edit_triggered()
     }
 }
 
-void MainWindow_Teacher::on_action_save_triggered()
+void MainWindow_Teacher::on_action_save_triggered() //保存
 {
     if(now_page==0||!ui->action_edit->isChecked())
         return ;
@@ -735,13 +735,13 @@ void MainWindow_Teacher::on_action_save_triggered()
     }
 }
 
-void MainWindow_Teacher::on_action_setsort_triggered()
+void MainWindow_Teacher::on_action_setsort_triggered() //设置排序
 {
     Dialog_setsort* dialog=new Dialog_setsort(this);
     dialog->show();
 }
 
-void MainWindow_Teacher::on_action_score_triggered()
+void MainWindow_Teacher::on_action_score_triggered() //按成绩排序
 {
     if(now_page==0||ui->action_edit->isChecked())
         return ;
@@ -764,7 +764,7 @@ void MainWindow_Teacher::on_action_score_triggered()
     delete cp_stuscore;
 }
 
-void MainWindow_Teacher::on_action_stuid_triggered()
+void MainWindow_Teacher::on_action_stuid_triggered() //按学号排序
 {
     if(now_page==0||ui->action_edit->isChecked())
         return ;
@@ -787,7 +787,7 @@ void MainWindow_Teacher::on_action_stuid_triggered()
     delete cp_stuscore;
 }
 
-void MainWindow_Teacher::on_action_leave_triggered()
+void MainWindow_Teacher::on_action_leave_triggered() //退出程序
 {
     int answer=QMessageBox::question(this,"退出程序","请问您是否确定要退出当学生成绩管理系统？",QMessageBox::Yes,QMessageBox::No);
     if(answer==QMessageBox::Yes)
@@ -796,7 +796,7 @@ void MainWindow_Teacher::on_action_leave_triggered()
     }
 }
 
-void MainWindow_Teacher::on_action_relog_triggered()
+void MainWindow_Teacher::on_action_relog_triggered() //重新登陆
 {
     if(ui->action_edit->isChecked())
     {

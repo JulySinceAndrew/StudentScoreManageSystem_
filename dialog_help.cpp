@@ -14,7 +14,7 @@ Dialog_Help::~Dialog_Help()
     delete ui;
 }
 
-void Dialog_Help::on_pushButton_clicked()
+void Dialog_Help::on_pushButton_clicked() //确认按钮
 {
     close();
 }

@@ -42,7 +42,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string>计算机程序设计基础(2)__夏季学期__大作业2
+选题:学生成绩管理系统
+齐涛__无64
+感谢您的使用！</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">

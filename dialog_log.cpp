@@ -26,10 +26,10 @@ Dialog_Log::Dialog_Log(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->comboBox->setEditable(false);
-    QRegExp reg("^[0-9a-zA-Z]{6,12}$");
+    QRegExp reg("^[0-9a-zA-Z]{6,12}$"); //为密码设置正则表达
     QValidator *val=new QRegExpValidator(reg,this);
     ui->lineedit_password->setValidator(val);
-    QRegExp reg2("20[0-9]{8}");//学号
+    QRegExp reg2("20[0-9]{8}");//为学号设置正则表达
     QValidator *val2=new QRegExpValidator(reg2,this);
     ui->lineedit_account->setValidator(val2);
     setFixedSize(460,460);
@@ -40,7 +40,7 @@ Dialog_Log::~Dialog_Log()
     delete ui;
 }
 
-void Dialog_Log::on_comboBox_currentIndexChanged(int index)
+void Dialog_Log::on_comboBox_currentIndexChanged(int index) //检测更改模式
 {
     if(index==0)
     {
@@ -62,27 +62,27 @@ void Dialog_Log::on_comboBox_currentIndexChanged(int index)
     }
 }
 
-void Dialog_Log::on_pushButton_leave_clicked()
+void Dialog_Log::on_pushButton_leave_clicked() //退出按钮
 {
     int answer=QMessageBox::question(this,"您是否要退出？","请问您是否确认要退出学生成绩管理系用？",QMessageBox::Yes,QMessageBox::No);
     if(answer==QMessageBox::Yes)
         close();
 }
 
-void Dialog_Log::on_pushButton_log_clicked()
+void Dialog_Log::on_pushButton_log_clicked() //登录按钮
 {
     int now=ui->comboBox->currentIndex();
-    if(ui->lineedit_account->text()==QString())
+    if(ui->lineedit_account->text()==QString()) //检测账号为空
     {
         QMessageBox::warning(this,"账号为空！","账号不能为空，请输入账号!",QMessageBox::Ok);
         return ;
     }
-    if(ui->lineedit_password->text()==QString())
+    if(ui->lineedit_password->text()==QString()) //检测密码为空
     {
         QMessageBox::warning(this,"密码为空！","密码不能为空，请输入密码!",QMessageBox::Ok);
         return ;
     }
-    if(ui->lineedit_password->text().toStdString().size()<6)
+    if(ui->lineedit_password->text().toStdString().size()<6) //检测密码位数小于6
     {
         QMessageBox::warning(this,"密码位数错误！","密码位数错误，密码位数为6-12位，请重新输入密码!",QMessageBox::Ok);
         return ;
@@ -90,9 +90,9 @@ void Dialog_Log::on_pushButton_log_clicked()
     long id=qstr_to_long(ui->lineedit_account->text());
     QString filename;
     QString filename2;
-    if(now==0) //学生
+    if(now==0) //学生模式
     {
-        if(id<2000000000)
+        if(id<2000000000) //检测学号范围
         {
             QMessageBox::warning(this,"学生账号范围错误！","学生账号位数错误，学生账号范围为[2000000000,2100000000),请重新输入学生账号",QMessageBox::Ok);
             return ;
@@ -100,9 +100,9 @@ void Dialog_Log::on_pushButton_log_clicked()
         filename="account_student.bin";
         filename2="password_student.bin";
     }
-    else if(now==1) //老师
+    else if(now==1) //老师模式
     {
-        if(id<100000)
+        if(id<100000) //检测教职工号范围
         {
             QMessageBox::warning(this,"教职工账号范围错误！","教职工账号位数错误，教职工账号范围为[100000,1000000),请重新输入教职工账号",QMessageBox::Ok);
             return ;
@@ -110,9 +110,9 @@ void Dialog_Log::on_pushButton_log_clicked()
         filename="account_teacher.bin";
         filename2="password_teacher.bin";
     }
-    else if(now==2)//管理员
+    else if(now==2)//管理员模式
     {
-        if(id<1000000)
+        if(id<1000000) //检测管理员范围
         {
             QMessageBox::warning(this,"管理员账号范围错误！","管理员账号位数错误，管理员账号范围为[1000000,10000000),请重新输入管理员账号",QMessageBox::Ok);
             return ;
@@ -127,13 +127,13 @@ void Dialog_Log::on_pushButton_log_clicked()
     fin.read((char*)(&count),sizeof(int));
     int i=0;
     long nowid;
-    for(;i<count;i++)
+    for(;i<count;i++)//查找账号
     {
         fin.read((char*)(&nowid),sizeof(long));
         if(nowid==inputid)
             break;
     }
-    if(i==count)
+    if(i==count)//账号不存在
     {
         QMessageBox::warning(this,"账号不存在！","您输入的账号不存在，请核实后重新输入！",QMessageBox::Ok);
         return ;
@@ -143,7 +143,7 @@ void Dialog_Log::on_pushButton_log_clicked()
     int size;
     fin.open(filename2.toStdString(),ios_base::in);
     fin.read((char*)(&size),sizeof(int));
-    for(int j=0;j<i;j++)
+    for(int j=0;j<i;j++)//查找对应密码
     {
         fin.read((char*)(&size),sizeof(int));
         password=new char[size+1];
@@ -156,7 +156,7 @@ void Dialog_Log::on_pushButton_log_clicked()
     fin.read(password,size);
     password[size]='\0';
     int inputsize=ui->lineedit_password->text().toStdString().size();qDebug()<<size<<inputsize;
-    if(size!=inputsize)
+    if(size!=inputsize)//密码位数错误
     {
         QMessageBox::warning(this,"密码错误！","您输入的账号或密码错误，请重新输入！",QMessageBox::Ok);
         return ;
@@ -164,12 +164,13 @@ void Dialog_Log::on_pushButton_log_clicked()
     const char* inputpassword=ui->lineedit_password->text().toStdString().c_str();
     for(int k=0;k<size+1;k++)
     {qDebug()<<inputpassword[k]<<password[k];
-        if(inputpassword[k]!=password[k])
+        if(inputpassword[k]!=password[k])//密码错误
         {
             QMessageBox::warning(this,"密码错误！","您输入的账号或密码错误，请重新输入！",QMessageBox::Ok);
             return ;
         }
     }
+    //密码正确 打开对应mainwindow
     if(now==0)
     {
         log_student_id=id;

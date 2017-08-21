@@ -40,7 +40,6 @@ private slots:
 private:
     Ui::MainWindow_Student *ui;
     long stuid;
-    //long lesid;
     Student* a_student;
     vector_of_Lesson lesson;
     vector_of_Teacher teacher;

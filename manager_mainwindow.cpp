@@ -49,37 +49,37 @@ Manager_MainWindow::~Manager_MainWindow()
     delete ui;
 }
 
-void Manager_MainWindow::closeEvent(QCloseEvent *event)
-{qDebug()<<"ASDASDASDASDASdasdasdasd";
+void Manager_MainWindow::closeEvent(QCloseEvent *event) //捕捉关闭信号 保存所有文件
+{
     save_file();
 }
 
-void Manager_MainWindow::set_welcome_visible(bool arg)
+void Manager_MainWindow::set_welcome_visible(bool arg) //设置欢迎是否可见
 {
     ui->label_welcome_fixed->setVisible(arg);
     ui->label_welcome_fixed2->setVisible(arg);
     ui->label_welcome_change->setVisible(arg);
 }
 
-void Manager_MainWindow::set_studenttable_visible(bool arg)
+void Manager_MainWindow::set_studenttable_visible(bool arg) //设置显示学生详细信息表格是否可见
 {
     ui->table_student->setVisible(arg);
     ui->table_student_total->setVisible(arg);
 }
 
-void Manager_MainWindow::set_teachertable_visible(bool arg)
+void Manager_MainWindow::set_teachertable_visible(bool arg) //设置显示教师详细信息表格是否可见
 {
     ui->table_teacher_total->setVisible(arg);
     ui->table_teacher->setVisible(arg);
 }
 
-void Manager_MainWindow::set_lessontable_visible(bool arg)
+void Manager_MainWindow::set_lessontable_visible(bool arg) //设置显示课程详细信息表格是否可见
 {
     ui->table_lesson->setVisible(arg);
     ui->table_lesson_total->setVisible(arg);
 }
 
-void Manager_MainWindow::set_table_visivle(bool arg)
+void Manager_MainWindow::set_table_visivle(bool arg) //设置显示表格是否可见
 {
     ui->table->setVisible(arg);
     /*if(arg==false)
@@ -90,7 +90,7 @@ void Manager_MainWindow::set_table_visivle(bool arg)
     }*/
 }
 
-void Manager_MainWindow::set_student_editable(bool arg)
+void Manager_MainWindow::set_student_editable(bool arg) //设置显示学生详细信息表格是否可编辑
 {
     QLineEdit* lineedit;
     lineedit=(QLineEdit*)ui->table_student_total->cellWidget(0,0);
@@ -105,7 +105,7 @@ void Manager_MainWindow::set_student_editable(bool arg)
     }
 }
 
-void Manager_MainWindow::set_teacher_editable(bool arg)
+void Manager_MainWindow::set_teacher_editable(bool arg)//设置显示教师详细信息表格是否可编辑
 {
     QLineEdit* lineedit;
     lineedit=(QLineEdit*)ui->table_teacher_total->cellWidget(0,0);
@@ -115,7 +115,7 @@ void Manager_MainWindow::set_teacher_editable(bool arg)
     combobox->setEnabled(arg);
 }
 
-void Manager_MainWindow::set_lesson_editable(bool arg)
+void Manager_MainWindow::set_lesson_editable(bool arg) //设置显示课程详细信息表格是否可编辑
 {
     QLineEdit* lineedit;
     lineedit=(QLineEdit*)ui->table_lesson_total->cellWidget(0,0);
@@ -131,7 +131,7 @@ void Manager_MainWindow::set_lesson_editable(bool arg)
     }
 }
 
-void Manager_MainWindow::update_student()
+void Manager_MainWindow::update_student() //更新学生详细表格信息
 {
     QLineEdit* lineedit;
     lineedit=(QLineEdit*)ui->table_student_total->cellWidget(0,0);
@@ -158,7 +158,7 @@ void Manager_MainWindow::update_student()
     }
 }
 
-void Manager_MainWindow::update_teacher()
+void Manager_MainWindow::update_teacher()//更新教师详细表格信息
 {
     QLineEdit* lineedit=(QLineEdit*)ui->table_teacher_total->cellWidget(0,0);
     teacher_object->set_name(lineedit->text());
@@ -169,7 +169,7 @@ void Manager_MainWindow::update_teacher()
         teacher_object->set_sex(woman);
 }
 
-void Manager_MainWindow::update_lesson()
+void Manager_MainWindow::update_lesson() //更新课程详细表格信息
 {
     QLineEdit* lineedit;
     lineedit=(QLineEdit*)ui->table_lesson_total->cellWidget(0,0);
@@ -202,14 +202,14 @@ void Manager_MainWindow::update_lesson()
     }
 }
 
-void Manager_MainWindow::open_file()
+void Manager_MainWindow::open_file() //打开所有文件
 {
     open_student_file();
     open_teacher_file();
     open_lesson_file();
 }
 
-void Manager_MainWindow::open_student_file()
+void Manager_MainWindow::open_student_file() //打开学生文件
 {
     fstream fin;
     fstream finstu;
@@ -253,7 +253,7 @@ void Manager_MainWindow::open_student_file()
 
 }
 
-void Manager_MainWindow::open_teacher_file()
+void Manager_MainWindow::open_teacher_file() //打开教师文件
 {
     fstream fin;
     fstream finstu;
@@ -297,7 +297,7 @@ void Manager_MainWindow::open_teacher_file()
 
 }
 
-void Manager_MainWindow::open_lesson_file()
+void Manager_MainWindow::open_lesson_file() //打开课程文件
 {
     QString prefix="les_";
     QString houzhui=".bin";
@@ -345,8 +345,8 @@ void Manager_MainWindow::open_lesson_file()
     }
 }
 
-void Manager_MainWindow::save_student_file()
-{qDebug()<<"begin";
+void Manager_MainWindow::save_student_file() //保存学生文件
+{
     fstream fout;
     fout.open("studentlist.bin",ios_base::out|ios_base::trunc);
     int count=student.count();
@@ -388,7 +388,7 @@ void Manager_MainWindow::save_student_file()
     }qDebug()<<"end";
 }
 
-void Manager_MainWindow::save_teacher_file()
+void Manager_MainWindow::save_teacher_file() //保存教师文件
 {
     fstream fout;
     fout.open("teacherlist.bin",ios_base::out|ios_base::trunc);
@@ -431,7 +431,7 @@ void Manager_MainWindow::save_teacher_file()
     }
 }
 
-void Manager_MainWindow::save_lesson_file()
+void Manager_MainWindow::save_lesson_file() //保存课程文件
 {
     fstream fout;
     fout.open("lessonlist.bin",ios_base::out|ios_base::trunc);
@@ -479,13 +479,13 @@ void Manager_MainWindow::save_lesson_file()
     }
 }
 
-void Manager_MainWindow::save_file()
+void Manager_MainWindow::save_file() //保存所有文件
 {
     save_student_file();
     save_teacher_file();
     save_lesson_file();
 }
-
+//为学生列表信息新增一行
 void Manager_MainWindow::addrow_table_studentlist(QString name, long id, bool sex,bool editable)
 {
     int count=ui->table->rowCount();
@@ -507,7 +507,7 @@ void Manager_MainWindow::addrow_table_studentlist(QString name, long id, bool se
     ui->table->setCellWidget(count,2,combobox);
     combobox->setEnabled(editable);
 }
-
+//为教师列表信息新增一行
 void Manager_MainWindow::addrow_table_teacherlist(QString name, long id, bool sex, bool editable)
 {
     int count=ui->table->rowCount();
@@ -529,7 +529,7 @@ void Manager_MainWindow::addrow_table_teacherlist(QString name, long id, bool se
     ui->table->setCellWidget(count,2,combobox);
     combobox->setEnabled(editable);
 }
-
+//为课程列表信息新增一行
 void Manager_MainWindow::addrow_table_lessonlist(QString lessonname, long id, QString teachername,bool editable)
 {
     int count=ui->table->rowCount();
@@ -548,7 +548,7 @@ void Manager_MainWindow::addrow_table_lessonlist(QString lessonname, long id, QS
     ui->table->setCellWidget(count,2,lineedit);
     lineedit->setReadOnly(!editable);
 }
-
+//为学生详细信息新增一行
 void Manager_MainWindow::addrow_table_totalstu(QString name, long id, bool sex, double avescore, double avegpa)
 {
     ui->table_student_total->insertRow(0);
@@ -579,7 +579,7 @@ void Manager_MainWindow::addrow_table_totalstu(QString name, long id, bool sex, 
     ui->table_student_total->setCellWidget(0,4,lineedit);
     lineedit->setReadOnly(true);
 }
-
+//为学生详细信息新增一行
 void Manager_MainWindow::addrow_table_student(QString lessonname, long id, QString teachername, int credit, int score,bool editable)
 {
     int count=ui->table_student->rowCount();
@@ -614,7 +614,7 @@ void Manager_MainWindow::addrow_table_student(QString lessonname, long id, QStri
     ui->table_student->setCellWidget(count,6,lineedit);
     lineedit->setReadOnly(true);
 }
-
+//为教师详细信息新增一行
 void Manager_MainWindow::addrow_table_totaltea(QString teachername, long id, bool sex, int lessoncount)
 {
     ui->table_teacher_total->insertRow(0);
@@ -639,7 +639,7 @@ void Manager_MainWindow::addrow_table_totaltea(QString teachername, long id, boo
     ui->table_teacher_total->setCellWidget(0,3,lineedit);
     lineedit->setReadOnly(true);
 }
-
+//为教师详细信息新增一行
 void Manager_MainWindow::addrow_table_teacher(QString lessonname, long id, int credit, int stunumber,bool editable)
 {
     int count=ui->table_teacher->rowCount();
@@ -662,7 +662,7 @@ void Manager_MainWindow::addrow_table_teacher(QString lessonname, long id, int c
     ui->table_teacher->setCellWidget(count,3,lineedit);
     lineedit->setReadOnly(!editable);
 }
-
+//为课程详细信息新增一行
 void Manager_MainWindow::addrow_table_totalles(QString lessonname, long id, QString teachername, long teacherid, int credit, int stunumber, double avescore, double avegpa,double midscore,double midgpa,double passpercentage)
 {
     ui->table_lesson_total->insertColumn(0);
@@ -718,7 +718,7 @@ void Manager_MainWindow::addrow_table_totalles(QString lessonname, long id, QStr
     ui->table_lesson_total->setCellWidget(9,0,lineedit);
     lineedit->setReadOnly(true);
 }
-
+//为课程详细信息新增一行
 void Manager_MainWindow::addrow_table_lesson(QString stuname, long stuid, int score, bool editable)
 {
     int count=ui->table_lesson->rowCount();
@@ -745,7 +745,7 @@ void Manager_MainWindow::addrow_table_lesson(QString stuname, long stuid, int sc
     ui->table_lesson->setCellWidget(count,4,lineedit);
     lineedit->setReadOnly(!editable);
 }
-
+//为学生详细信息新增一行
 void Manager_MainWindow::newrow_table_student()
 {
     int count=ui->table_student->rowCount();
@@ -773,7 +773,7 @@ void Manager_MainWindow::newrow_table_student()
     ui->table_student->setCellWidget(count,6,lineedit);
     lineedit->setReadOnly(true);
 }
-
+//保存新增的学生详细信息表格的行
 bool Manager_MainWindow::saverow_table_student()
 {
     if(check_student())
@@ -803,7 +803,7 @@ bool Manager_MainWindow::saverow_table_student()
     }
     return false;
 }
-
+//为的课程详细信息表格新增一行
 void Manager_MainWindow::newrow_table_lesson()
 {
     int count=ui->table_lesson->rowCount();
@@ -825,7 +825,7 @@ void Manager_MainWindow::newrow_table_lesson()
     lineedit->setReadOnly(true);
     ui->table_lesson->setCellWidget(count,4,lineedit);
 }
-
+//保存新增的课程详细信息表格的行
 bool Manager_MainWindow::saverow_table_lesson()
 {
     if(check_lesson())
@@ -851,7 +851,7 @@ bool Manager_MainWindow::saverow_table_lesson()
     return false;
 }
 
-void Manager_MainWindow::open_studentlist()
+void Manager_MainWindow::open_studentlist()//显示学生的列表信息
 {
     ui->table->horizontalHeaderItem(0)->setText("姓名");
     ui->table->horizontalHeaderItem(1)->setText("学号");
@@ -861,7 +861,7 @@ void Manager_MainWindow::open_studentlist()
     table_resize();
 }
 
-void Manager_MainWindow::open_teacherlist()
+void Manager_MainWindow::open_teacherlist()//显示教师的列表信息
 {
     ui->table->horizontalHeaderItem(0)->setText("姓名");
     ui->table->horizontalHeaderItem(1)->setText("教职工号");
@@ -871,7 +871,7 @@ void Manager_MainWindow::open_teacherlist()
     table_resize();
 }
 
-void Manager_MainWindow::open_lessonlist()
+void Manager_MainWindow::open_lessonlist() //显示课程的列表信息
 {
     ui->table->horizontalHeaderItem(0)->setText("课程名");
     ui->table->horizontalHeaderItem(1)->setText("课程号");
@@ -881,7 +881,7 @@ void Manager_MainWindow::open_lessonlist()
     table_resize();
 }
 
-void Manager_MainWindow::open_student()
+void Manager_MainWindow::open_student() //显示学生的详细信息
 {
     double nowscore,nowcredit,nowgpa;
     double totalscore,totalcredit,totalgpa;
@@ -916,7 +916,7 @@ void Manager_MainWindow::open_student()
     addrow_table_totalstu(student_object->name(),student_object->ID(),student_object->sex(),totalscore/totalcredit,totalgpa/totalcredit);
 }
 
-void Manager_MainWindow::open_teacher()
+void Manager_MainWindow::open_teacher() //显示教师的详细信息
 {
     addrow_table_totaltea(teacher_object->name(),teacher_object->ID(),teacher_object->sex(),teacher_object->lessonID.count());
     Lesson now;
@@ -927,7 +927,7 @@ void Manager_MainWindow::open_teacher()
     }
 }
 
-void Manager_MainWindow::open_lesson()
+void Manager_MainWindow::open_lesson() //显示课程的详细信息
 {
     double nowscore,nowgpa;
     double totalscore,totalgpa;
@@ -1001,7 +1001,7 @@ void Manager_MainWindow::open_lesson()
     addrow_table_totalles(lesson_object->name(),lesson_object->ID(),teacher(lesson_object->teacherID()).name(),lesson_object->teacherID(),lesson_object->credit(),lesson_object->stuscore.count(),avescore,avegpa,midscore,midgpa,double(passcount)/double(count_havescore));
 }
 
-QString Manager_MainWindow::score_to_level(double score)
+QString Manager_MainWindow::score_to_level(double score) //将百分制成绩转化成等级
 {
     if(score>=95)
             return "A";
@@ -1033,7 +1033,7 @@ QString Manager_MainWindow::score_to_level(double score)
             return "*****";
 }
 
-double Manager_MainWindow::score_to_gpa(double score)
+double Manager_MainWindow::score_to_gpa(double score) //将百分制成绩转化成gpa
 {
     if(score>=95)
             return 4;
@@ -1061,7 +1061,7 @@ double Manager_MainWindow::score_to_gpa(double score)
             return score;
 }
 
-QString Manager_MainWindow::score_to_str_gpa(double score)
+QString Manager_MainWindow::score_to_str_gpa(double score) //将百分制成绩转化成gpa
 {
     if(score==-1)
         return "N/A";
@@ -1078,7 +1078,7 @@ QString Manager_MainWindow::score_to_str_gpa(double score)
 
 }
 
-QString Manager_MainWindow::avescore_to_qstr(double avescore)
+QString Manager_MainWindow::avescore_to_qstr(double avescore) //平均成绩保留两位转化成QString
 {
     double temp=avescore*100;
     int temp2=temp;
@@ -1090,7 +1090,7 @@ QString Manager_MainWindow::avescore_to_qstr(double avescore)
     return QString::fromStdString(os.str());
 }
 
-QString Manager_MainWindow::avegpa_to_qstr(double avegpa)
+QString Manager_MainWindow::avegpa_to_qstr(double avegpa) //平均gpa保留三位转化成QString
 {
     double temp=avegpa*1000;
     int temp2=temp;
@@ -1102,7 +1102,7 @@ QString Manager_MainWindow::avegpa_to_qstr(double avegpa)
     return QString::fromStdString(os.str());
 }
 
-QLineEdit *Manager_MainWindow::lineedit_studentID()
+QLineEdit *Manager_MainWindow::lineedit_studentID() //返回一个验证学生ID的行编辑器
 {
     QLineEdit* lineedit=new QLineEdit(this);
     QRegExp rx("2[0][0-9]{8}");
@@ -1111,7 +1111,7 @@ QLineEdit *Manager_MainWindow::lineedit_studentID()
     return lineedit;
 }
 
-QLineEdit *Manager_MainWindow::lineedit_teacherID()
+QLineEdit *Manager_MainWindow::lineedit_teacherID() //返回一个验证老师ID的行编辑器
 {
     QLineEdit* lineedit=new QLineEdit(this);
     QRegExp rx("[1-9][0-9]{5}");
@@ -1120,7 +1120,7 @@ QLineEdit *Manager_MainWindow::lineedit_teacherID()
     return lineedit;
 }
 
-QLineEdit *Manager_MainWindow::lineedit_lessonID()
+QLineEdit *Manager_MainWindow::lineedit_lessonID() //返回一个验证课程ID的行编辑器
 {
     QLineEdit* lineedit=new QLineEdit(this);
     QRegExp rx("[1-9][0-9]{7}");
@@ -1129,7 +1129,7 @@ QLineEdit *Manager_MainWindow::lineedit_lessonID()
     return lineedit;
 }
 
-QLineEdit *Manager_MainWindow::lineedit_credit()
+QLineEdit *Manager_MainWindow::lineedit_credit() //返回一个验证学分的行编辑器
 {
     QLineEdit* lineedit=new QLineEdit(this);
     QRegExp rx("^[1-9]{1}$|^10$");
@@ -1138,7 +1138,7 @@ QLineEdit *Manager_MainWindow::lineedit_credit()
     return lineedit;
 }
 
-QLineEdit *Manager_MainWindow::lineedit_score()
+QLineEdit *Manager_MainWindow::lineedit_score() //返回一个验证成绩的行编辑器
 {
     QLineEdit* lineedit=new QLineEdit(this);
     QRegExp rx("^[0-9]{1,2}$|^100$|^-1$|^-2$|^-3$");
@@ -1147,7 +1147,7 @@ QLineEdit *Manager_MainWindow::lineedit_score()
     return lineedit;
 }
 
-QComboBox *Manager_MainWindow::combobox_sex()
+QComboBox *Manager_MainWindow::combobox_sex() //返回一个设置性别的选择框
 {
     QComboBox* com=new QComboBox(this);
     com->addItem("男");
@@ -1156,21 +1156,21 @@ QComboBox *Manager_MainWindow::combobox_sex()
     return com;
 }
 
-QString Manager_MainWindow::long_to_qstr(long n)
+QString Manager_MainWindow::long_to_qstr(long n) //long转QString
 {
     ostringstream os;
     os<<n;
     return QString::fromStdString(os.str());
 }
 
-QString Manager_MainWindow::int_to_qstr(int n)
+QString Manager_MainWindow::int_to_qstr(int n) //int转QString
 {
     ostringstream os;
     os<<n;
     return QString::fromStdString(os.str());
 }
 
-QString Manager_MainWindow::percentage_to_qstr(double per)
+QString Manager_MainWindow::percentage_to_qstr(double per) //小数转QString格式的百分数
 {
     double temp=per*10000;
     int temp2=temp;
@@ -1182,7 +1182,7 @@ QString Manager_MainWindow::percentage_to_qstr(double per)
     return QString::fromStdString(os.str());
 }
 
-long Manager_MainWindow::qstr_to_long(QString qs)
+long Manager_MainWindow::qstr_to_long(QString qs) //QString转long
 {
     istringstream is(qs.toStdString());
     long id;
@@ -1190,7 +1190,7 @@ long Manager_MainWindow::qstr_to_long(QString qs)
     return id;
 }
 
-int Manager_MainWindow::qstr_to_int(QString qs)
+int Manager_MainWindow::qstr_to_int(QString qs) // QString转int
 {
     istringstream is(qs.toStdString());
     int id;
@@ -1198,7 +1198,7 @@ int Manager_MainWindow::qstr_to_int(QString qs)
     return id;
 }
 
-bool Manager_MainWindow::check_student_list()
+bool Manager_MainWindow::check_student_list() //检测学生列表信息修改是否输入符合要求
 {
     QLineEdit* lineedit;
     int count=ui->table->rowCount();
@@ -1233,7 +1233,7 @@ bool Manager_MainWindow::check_student_list()
     return true;
 }
 
-bool Manager_MainWindow::check_teacher_list()
+bool Manager_MainWindow::check_teacher_list() //检测教师列表信息修改是否输入符合要求
 {
     QLineEdit* lineedit;
     int count=ui->table->rowCount();
@@ -1268,7 +1268,7 @@ bool Manager_MainWindow::check_teacher_list()
     return true;
 }
 
-bool Manager_MainWindow::check_lesson_list()
+bool Manager_MainWindow::check_lesson_list() //检测课程列表信息修改是否输入符合要求
 {
     QLineEdit* lineedit;
     lineedit=(QLineEdit*)ui->table_newlesson->cellWidget(0,0);
@@ -1338,7 +1338,7 @@ bool Manager_MainWindow::check_lesson_list()
     return true;
 }
 
-bool Manager_MainWindow::check_student()
+bool Manager_MainWindow::check_student() //检测学生详细信息修改是否输入符合要求
 {
     int count=ui->table_student->rowCount();
     count--;
@@ -1390,7 +1390,7 @@ bool Manager_MainWindow::check_student()
     return true;
 }
 
-bool Manager_MainWindow::check_lesson()
+bool Manager_MainWindow::check_lesson() //检测课程详细信息修改是否输入符合要求
 {
     int count=ui->table_lesson->rowCount()-1;
     QLineEdit* lineedit;
@@ -1432,7 +1432,7 @@ bool Manager_MainWindow::check_lesson()
     return true;
 }
 
-bool Manager_MainWindow::check_teacher_all()
+bool Manager_MainWindow::check_teacher_all() //检测教师详细信息修改是否输入符合要求
 {
     QLineEdit*lineedit=(QLineEdit*)ui->table_teacher_total->cellWidget(0,0);
     if(lineedit->text()==QString())
@@ -1443,7 +1443,7 @@ bool Manager_MainWindow::check_teacher_all()
     return true;
 }
 
-bool Manager_MainWindow::check_student_all()
+bool Manager_MainWindow::check_student_all() //检测学生详细信息修改是否输入符合要求
 {
     QLineEdit*lineedit;
     lineedit=(QLineEdit*)ui->table_student_total->cellWidget(0,0);
@@ -1464,7 +1464,7 @@ bool Manager_MainWindow::check_student_all()
     return true;
 }
 
-bool Manager_MainWindow::check_lesson_all()
+bool Manager_MainWindow::check_lesson_all() //检测课程详细信息修改是否输入符合要求
 {
     QLineEdit*lineedit;
     lineedit=(QLineEdit*)ui->table_lesson_total->cellWidget(0,0);
@@ -1516,7 +1516,7 @@ bool Manager_MainWindow::check_lesson_all()
     }
     return true;
 }
-
+//弹出不同类型的警告框
 void Manager_MainWindow::critical_nopersonname(int row)
 {
     ostringstream os;
@@ -1657,7 +1657,7 @@ void Manager_MainWindow::new_lesson_list()
     ui->table_newlesson->setCellWidget(0,3,lineedit);
 }
 
-void Manager_MainWindow::sort_stu_id()
+void Manager_MainWindow::sort_stu_id() //按学生ID排序
 {
     long tempid;
     int tempscore;
@@ -1700,7 +1700,7 @@ void Manager_MainWindow::sort_stu_id()
     }
 }
 
-void Manager_MainWindow::sort_stu_score()
+void Manager_MainWindow::sort_stu_score() //按学生成绩排序
 {
     long tempid;
     int tempscore;
@@ -1743,7 +1743,7 @@ void Manager_MainWindow::sort_stu_score()
     }
 }
 
-void Manager_MainWindow::sort_les_score()
+void Manager_MainWindow::sort_les_score() //按课程成绩排序
 {
     long tempid;
     int tempscore;
@@ -1786,7 +1786,7 @@ void Manager_MainWindow::sort_les_score()
     }
 }
 
-void Manager_MainWindow::on_action_student_triggered()
+void Manager_MainWindow::on_action_student_triggered() //学生按钮
 {
     bool flag=ui->action_student->isChecked();
     if(ui->action_edit->isChecked()||ui->action_New->isChecked())
@@ -1811,7 +1811,7 @@ void Manager_MainWindow::on_action_student_triggered()
     open_studentlist();
 }
 
-void Manager_MainWindow::on_action_teacher_triggered()
+void Manager_MainWindow::on_action_teacher_triggered() //教师按钮
 {
     bool flag=ui->action_teacher->isChecked();
     if(ui->action_edit->isChecked()||ui->action_New->isChecked())
@@ -1836,7 +1836,7 @@ void Manager_MainWindow::on_action_teacher_triggered()
     open_teacherlist();
 }
 
-void Manager_MainWindow::on_action_lesson_triggered()
+void Manager_MainWindow::on_action_lesson_triggered() //课程按钮
 {
     bool flag=ui->action_lesson->isChecked();
     if(ui->action_edit->isChecked()||ui->action_New->isChecked())
@@ -1861,7 +1861,7 @@ void Manager_MainWindow::on_action_lesson_triggered()
     open_lessonlist();
 }
 
-void Manager_MainWindow::on_action_edit_triggered()
+void Manager_MainWindow::on_action_edit_triggered() //编辑按钮
 {
     bool flag=ui->action_edit->isChecked();
     if(now_page!=2||ui->action_New->isChecked()||!ui->action_edit->isChecked())
@@ -1885,7 +1885,7 @@ void Manager_MainWindow::on_action_edit_triggered()
 
 }
 
-void Manager_MainWindow::on_action_New_triggered()
+void Manager_MainWindow::on_action_New_triggered() //新建按钮
 {
     bool flag=ui->action_New->isChecked();
     if(now_page==0||ui->action_edit->isChecked())
@@ -1976,7 +1976,7 @@ void Manager_MainWindow::on_action_New_triggered()
 
 }
 
-void Manager_MainWindow::table_resize()
+void Manager_MainWindow::table_resize() //重新设置表格大小
 {
     int w=ui->table->size().width();
     int h=ui->table->rowCount()*row_height+top_height;
@@ -1985,7 +1985,7 @@ void Manager_MainWindow::table_resize()
     ui->table->resize(w,h);
 }
 
-void Manager_MainWindow::student_resize()
+void Manager_MainWindow::student_resize() //重新设置显示学生详细信息表格大小
 {
     int w=ui->table_student->size().width();
     int h=ui->table_student->rowCount()*row_height+top_height;
@@ -1994,7 +1994,7 @@ void Manager_MainWindow::student_resize()
     ui->table_student->resize(w,h);
 }
 
-void Manager_MainWindow::teacher_resize()
+void Manager_MainWindow::teacher_resize() //重新设置显示教师详细信息表格大小
 {
     int w=ui->table_teacher->size().width();
     int h=ui->table_teacher->rowCount()*row_height+top_height;
@@ -2003,7 +2003,7 @@ void Manager_MainWindow::teacher_resize()
     ui->table_teacher->resize(w,h);
 }
 
-void Manager_MainWindow::lesson_resize()
+void Manager_MainWindow::lesson_resize() //重新设置显示课程详细信息表格大小
 {
     int w=ui->table_lesson->size().width();
     int h=ui->table_lesson->rowCount()*row_height+top_height;
@@ -2012,13 +2012,13 @@ void Manager_MainWindow::lesson_resize()
     ui->table_lesson->resize(w,h);
 }
 
-void Manager_MainWindow::close_all()
+void Manager_MainWindow::close_all() //关闭所有表格
 {
     clear_alltable();
     set_all_visible(false);
 }
 
-void Manager_MainWindow::clear_alltable()
+void Manager_MainWindow::clear_alltable() //清空所有表格
 {
     clear_table();
     clear_student();
@@ -2026,7 +2026,7 @@ void Manager_MainWindow::clear_alltable()
     clear_lesson();
 }
 
-void Manager_MainWindow::clear_table()
+void Manager_MainWindow::clear_table() //清空表格
 {
     int count=ui->table->rowCount();
     for(int i=0;i<count;i++)
@@ -2034,7 +2034,7 @@ void Manager_MainWindow::clear_table()
     table_resize();
 }
 
-void Manager_MainWindow::clear_student()
+void Manager_MainWindow::clear_student()//清空显示学生详细信息表格
 {
     int count;
     count=ui->table_student_total->rowCount();
@@ -2045,7 +2045,7 @@ void Manager_MainWindow::clear_student()
         ui->table_student->removeRow(0);
 }
 
-void Manager_MainWindow::clear_teacher()
+void Manager_MainWindow::clear_teacher() //清空显示教师详细信息表格
 {
     int count;
     count=ui->table_teacher_total->rowCount();
@@ -2056,7 +2056,7 @@ void Manager_MainWindow::clear_teacher()
         ui->table_teacher->removeRow(0);
 }
 
-void Manager_MainWindow::clear_lesson()
+void Manager_MainWindow::clear_lesson() //清空显示课程详细信息表格
 {
     int count;
     count=ui->table_lesson_total->columnCount();
@@ -2067,7 +2067,7 @@ void Manager_MainWindow::clear_lesson()
         ui->table_lesson->removeRow(0);
 }
 
-void Manager_MainWindow::set_all_visible(bool arg)
+void Manager_MainWindow::set_all_visible(bool arg) //设置所有挂件是否可见
 {
     set_welcome_visible(arg);
     set_studenttable_visible(arg);
@@ -2077,7 +2077,7 @@ void Manager_MainWindow::set_all_visible(bool arg)
     ui->table_newlesson->setVisible(arg);
 }
 
-void Manager_MainWindow::on_action_Look_triggered()
+void Manager_MainWindow::on_action_Look_triggered() //查看按钮
 {
     if(now_page==0||now_page==2)
         return ;
@@ -2143,7 +2143,7 @@ void Manager_MainWindow::on_action_Look_triggered()
     }
 }
 
-void Manager_MainWindow::on_action_back_triggered()
+void Manager_MainWindow::on_action_back_triggered() //后退按钮
 {
     if(ui->action_edit->isChecked()||ui->action_New->isChecked())
         return ;
@@ -2173,7 +2173,7 @@ void Manager_MainWindow::on_action_back_triggered()
     }
 }
 
-void Manager_MainWindow::on_action_deleteobject_triggered()
+void Manager_MainWindow::on_action_deleteobject_triggered() //删除按钮
 {
     if(ui->action_edit->isChecked()||ui->action_New->isChecked())
         return ;
@@ -2303,7 +2303,7 @@ void Manager_MainWindow::on_action_deleteobject_triggered()
     }
 }
 
-void Manager_MainWindow::on_action_Save_triggered()
+void Manager_MainWindow::on_action_Save_triggered() //保存按钮
 {
     if(ui->action_New->isChecked())
     {
@@ -2414,13 +2414,13 @@ void Manager_MainWindow::on_action_Save_triggered()
     }
 }
 
-void Manager_MainWindow::on_action_setsort_triggered()
+void Manager_MainWindow::on_action_setsort_triggered() //设置排序按钮
 {
     Dialog_setsort* dialog=new Dialog_setsort(this);
     dialog->show();
 }
 
-void Manager_MainWindow::on_action_studentnumber_triggered()
+void Manager_MainWindow::on_action_studentnumber_triggered() //按学号排序按钮
 {
     if(!(now_page==2&&now_state==state_lesson))
         return ;
@@ -2445,7 +2445,7 @@ void Manager_MainWindow::on_action_studentnumber_triggered()
     delete cp_stuscore;
 }
 
-void Manager_MainWindow::on_action_score_triggered()
+void Manager_MainWindow::on_action_score_triggered() //按成绩排序按钮
 {
     if(now_page!=2||now_state==state_teacher)
         return ;
@@ -2504,8 +2504,7 @@ void Manager_MainWindow::on_action_score_triggered()
     }
 }
 
-
-void Manager_MainWindow::on_action_exit_triggered()
+void Manager_MainWindow::on_action_exit_triggered() //退出按钮
 {
     if(ui->action_New->isChecked())
     {
@@ -2524,7 +2523,7 @@ void Manager_MainWindow::on_action_exit_triggered()
     }
 }
 
-void Manager_MainWindow::on_action_relog_triggered()
+void Manager_MainWindow::on_action_relog_triggered() //重新登录按钮
 {
     if(ui->action_New->isChecked())
     {

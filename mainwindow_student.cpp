@@ -45,7 +45,7 @@ MainWindow_Student::~MainWindow_Student()
     delete ui;
 }
 
-void MainWindow_Student::open_all()
+void MainWindow_Student::open_all() //打开所有文件和表格
 {
     open_a_student_file();
     open_lesson_file();
@@ -58,7 +58,7 @@ void MainWindow_Student::open_all()
     ui->table_student->resize(w,h);
 }
 
-void MainWindow_Student::open_a_student_file()
+void MainWindow_Student::open_a_student_file() //读入学生文件
 {
     QString prefix="stu_";
     QString suffix=".bin";
@@ -88,7 +88,7 @@ void MainWindow_Student::open_a_student_file()
     delete []name;
 }
 
-void MainWindow_Student::open_lesson_file()
+void MainWindow_Student::open_lesson_file() //读入所有课程文件
 {
     QString prefix="les_";
     QString houzhui=".bin";
@@ -136,7 +136,7 @@ void MainWindow_Student::open_lesson_file()
     }
 }
 
-void MainWindow_Student::open_teacher_file()
+void MainWindow_Student::open_teacher_file() //读入所有教师文件
 {
     fstream fin;
     fstream finstu;
@@ -179,7 +179,7 @@ void MainWindow_Student::open_teacher_file()
     }
 }
 
-void MainWindow_Student::open_a_student()
+void MainWindow_Student::open_a_student() //设置显示学生信息的两个table
 {
     QLineEdit* lineedit;
     QComboBox* combobox;
@@ -239,7 +239,7 @@ void MainWindow_Student::open_a_student()
         ui->table_student_total->setCellWidget(0,4,lineedit);
     }
 }
-
+//抽象出来的小模块 为显示成绩的table增加一个新行
 void MainWindow_Student::addrow_table_student(QString lessonname, long id, QString teachername, int credit, int score)
 {
     int count=ui->table_student->rowCount();
@@ -333,7 +333,7 @@ QString MainWindow_Student::percentage_to_qstr(double per)
     return QString::fromStdString(os.str());
 }
 
-void MainWindow_Student::sort_les_score()
+void MainWindow_Student::sort_les_score()//按课程成绩排序
 {
     long tempid;
     int tempscore;
@@ -376,7 +376,7 @@ void MainWindow_Student::sort_les_score()
     }
 }
 
-void MainWindow_Student::set_info(long id)
+void MainWindow_Student::set_info(long id) //打开详细界面
 {
     ui->table_info1->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->table_info2->setEditTriggers(QAbstractItemView::NoEditTriggers);qDebug()<<"debudao";
@@ -551,13 +551,13 @@ QString MainWindow_Student::score_to_str_gpa(double score)
 
 }
 
-void MainWindow_Student::on_action_setsort_triggered()
+void MainWindow_Student::on_action_setsort_triggered() //单击设置排序按钮
 {
     Dialog_setsort* dialog=new Dialog_setsort(this);
     dialog->show();
 }
 
-void MainWindow_Student::on_action_score_triggered()
+void MainWindow_Student::on_action_score_triggered() //单击按学号排序按钮
 {
     if(now_page==1)
         return ;
@@ -590,7 +590,7 @@ void MainWindow_Student::on_action_score_triggered()
     return ;
 }
 
-void MainWindow_Student::on_action_look_triggered()
+void MainWindow_Student::on_action_look_triggered() //单击查看按钮
 {
     if(now_page==1)
         return ;
@@ -605,7 +605,7 @@ void MainWindow_Student::on_action_look_triggered()
     set_info(qstr_to_long(lineedit->text()));
 }
 
-void MainWindow_Student::on_action_back_triggered()
+void MainWindow_Student::on_action_back_triggered() //单击后退按钮
 {
     if(now_page==0)
         return ;
@@ -615,7 +615,7 @@ void MainWindow_Student::on_action_back_triggered()
     ui->table_student->setVisible(true);
 }
 
-void MainWindow_Student::on_action_relog_triggered()
+void MainWindow_Student::on_action_relog_triggered() //单击重新登录按钮
 {
     int answer=QMessageBox::question(this,"退出登录","请问您是否确定要退出当前登录？",QMessageBox::Yes,QMessageBox::No);
     if(answer==QMessageBox::Yes)
@@ -626,7 +626,7 @@ void MainWindow_Student::on_action_relog_triggered()
     }
 }
 
-void MainWindow_Student::on_action_leave_triggered()
+void MainWindow_Student::on_action_leave_triggered() //单击退出程序按钮
 {
     int answer=QMessageBox::question(this,"退出程序","请问您是否确定要退出当学生成绩管理系统？",QMessageBox::Yes,QMessageBox::No);
     if(answer==QMessageBox::Yes)

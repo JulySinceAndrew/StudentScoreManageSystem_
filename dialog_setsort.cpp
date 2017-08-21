@@ -28,7 +28,7 @@ Dialog_setsort::~Dialog_setsort()
     delete ui;
 }
 
-void Dialog_setsort::on_pushButton_clicked()
+void Dialog_setsort::on_pushButton_clicked() //确定按钮
 {
     if(ui->radioButton->isChecked())
         sort_modal=up;
