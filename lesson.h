@@ -3,6 +3,7 @@
 
 //LessonID range 8位数 10000000-99999999
 #include"object.h"
+
 class score
 {
 public:

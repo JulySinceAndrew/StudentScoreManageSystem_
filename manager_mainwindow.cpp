@@ -1,12 +1,5 @@
 #include "manager_mainwindow.h"
 #include "ui_manager_mainwindow.h"
-#include<fstream>
-#include<QFileDialog>
-#include<string>
-#include<QMessageBox>
-#include<sstream>
-#include<QValidator>
-#include<QRegExp>
 
 #define row_height 30
 #define top_height 50
@@ -82,12 +75,6 @@ void Manager_MainWindow::set_lessontable_visible(bool arg) //设置显示课程�
 void Manager_MainWindow::set_table_visivle(bool arg) //设置显示表格是否可见
 {
     ui->table->setVisible(arg);
-    /*if(arg==false)
-    {
-        int count=ui->table->rowCount();
-        for(int i=0;i<count;i++)
-            ui->table->removeRow(0);
-    }*/
 }
 
 void Manager_MainWindow::set_student_editable(bool arg) //设置显示学生详细信息表格是否可编辑
@@ -246,7 +233,6 @@ void Manager_MainWindow::open_student_file() //打开学生文件
             finstu.read((char*)(&lessonid),sizeof(long));
             student[i].lessonID.add(lessonid);
         }
-        //qDebug()<<student[i].ID()<<student[i].name()<<student[i].sex();
         finstu.close();
         delete []name;
     }
@@ -290,7 +276,6 @@ void Manager_MainWindow::open_teacher_file() //打开教师文件
             finstu.read((char*)(&lessonid),sizeof(long));
             teacher[i].lessonID.add(lessonid);
         }
-        qDebug()<<teacher[i].ID()<<teacher[i].name()<<teacher[i].sex();
         finstu.close();
         delete []name;
     }
@@ -310,7 +295,7 @@ void Manager_MainWindow::open_lesson_file() //打开课程文件
     fin.read((char*)(&count),4);
     for(int i=0;i<count;i++)
     {
-        fin.read((char*)(&fileid),sizeof(long));qDebug()<<fileid;
+        fin.read((char*)(&fileid),sizeof(long));
         ostringstream *os=new ostringstream;
         *os<<fileid;
         QString  s=QString::fromStdString(os->str());
@@ -318,7 +303,7 @@ void Manager_MainWindow::open_lesson_file() //打开课程文件
         finles.open(filename.toStdString(),ios_base::in);
         char* name;
         int size;
-        finles.read((char*)(&size),4);qDebug()<<size;
+        finles.read((char*)(&size),4);
         name=new char[size+1];
         finles.read(name,size);
         name[size]='\0';
@@ -339,7 +324,6 @@ void Manager_MainWindow::open_lesson_file() //打开课程文件
             finles.read((char*)(&scores),sizeof(int));
             lesson[i].stuscore.add(score(stuid,scores));
         }
-        qDebug()<<"asdasd"<<lesson[i].ID()<<lesson[i].name()<<lesson[i].credit()<<lesson[i].teacherID();
         finles.close();
         delete []name;
     }
@@ -354,7 +338,7 @@ void Manager_MainWindow::save_student_file() //保存学生文件
     fout.write((char*)(&count),sizeof(int));
     for(int i=0;i<count;i++)
     {
-        id=student[i].ID();qDebug()<<id;
+        id=student[i].ID();
         fout.write((char*)(&id),sizeof(long));
     }
     fout.close();
@@ -371,21 +355,21 @@ void Manager_MainWindow::save_student_file() //保存学生文件
         fout.open(filename.toStdString(),ios_base::out|ios_base::trunc);
         QString name=student[i].name();
         int size=name.toStdString().size();
-        fout.write((char*)(&size),sizeof(int));qDebug()<<size;
-        fout.write(name.toStdString().c_str(),size);qDebug()<<name.toStdString().c_str();
+        fout.write((char*)(&size),sizeof(int));
+        fout.write(name.toStdString().c_str(),size);
         stuid=student[i].ID();
-        fout.write((char*)(&stuid),sizeof(long));qDebug()<<stuid;
+        fout.write((char*)(&stuid),sizeof(long));
         sex=student[i].sex();
-        fout.write((char*)(&sex),sizeof(bool));qDebug()<<sex;
+        fout.write((char*)(&sex),sizeof(bool));
         lescount=student[i].lessonID.count();
-        fout.write((char*)(&lescount),sizeof(int));qDebug()<<lescount;
+        fout.write((char*)(&lescount),sizeof(int));
         for(int j=0;j<lescount;j++)
         {
             lesid=student[i].lessonID[j];
-            fout.write((char*)(&lesid),sizeof(long));qDebug()<<stuid<<":"<<lesid;
+            fout.write((char*)(&lesid),sizeof(long));
         }
         fout.close();
-    }qDebug()<<"end";
+    }
 }
 
 void Manager_MainWindow::save_teacher_file() //保存教师文件
@@ -693,8 +677,8 @@ void Manager_MainWindow::addrow_table_totalles(QString lessonname, long id, QStr
     lineedit->setReadOnly(true);
     if(avescore==-5)
         return ;
-    lineedit=new QLineEdit(this);qDebug()<<passpercentage;
-    lineedit->setText(percentage_to_qstr(passpercentage));qDebug()<<percentage_to_qstr(passpercentage);
+    lineedit=new QLineEdit(this);
+    lineedit->setText(percentage_to_qstr(passpercentage));
     ui->table_lesson_total->setCellWidget(10,0,lineedit);
     lineedit->setReadOnly(true);
     lineedit=new QLineEdit(this);
@@ -956,7 +940,7 @@ void Manager_MainWindow::open_lesson() //显示课程的详细信息
         if(nowscore>=0)
         {
             count_havelevel++;
-            stuscore.add(nowscore);qDebug()<<nowscore<<lesson_object->stuscore[i].studentID;
+            stuscore.add(nowscore);
         }
         addrow_table_lesson(now.name(),now.ID(),nowscore,false);
         nowgpa=score_to_gpa(nowscore);
@@ -1246,7 +1230,7 @@ bool Manager_MainWindow::check_teacher_list() //检测教师列表信息修改�
     }
     lineedit=(QLineEdit*)ui->table->cellWidget(count,1);
     long id=-1;
-    id=qstr_to_long(lineedit->text());qDebug()<<id;
+    id=qstr_to_long(lineedit->text());
     if(id==-1)
     {
         critical_noteaid(count+1);
@@ -1407,7 +1391,7 @@ bool Manager_MainWindow::check_lesson() //检测课程详细信息修改是否�
         critical_noscore(count+1);
         return false;
     }
-    bool flag=true;qDebug()<<id;
+    bool flag=true;
     for(int i=0;i<student.count();i++)
     {
         if(student[i].ID()==id)
@@ -1807,8 +1791,7 @@ void Manager_MainWindow::on_action_student_triggered() //学生按钮
     now_state=state_student;
     ui->action_teacher->setChecked(false);
     ui->action_lesson->setChecked(false);
-    //打开studentlist
-    open_studentlist();
+    open_studentlist();//打开studentlist
 }
 
 void Manager_MainWindow::on_action_teacher_triggered() //教师按钮
@@ -1832,8 +1815,7 @@ void Manager_MainWindow::on_action_teacher_triggered() //教师按钮
     now_state=state_teacher;
     ui->action_student->setChecked(false);
     ui->action_lesson->setChecked(false);
-    //打开tealist
-    open_teacherlist();
+    open_teacherlist();    //打开tealist
 }
 
 void Manager_MainWindow::on_action_lesson_triggered() //课程按钮
@@ -1857,8 +1839,7 @@ void Manager_MainWindow::on_action_lesson_triggered() //课程按钮
     now_state=state_lesson;
     ui->action_teacher->setChecked(false);
     ui->action_student->setChecked(false);
-    //打开lesslist
-    open_lessonlist();
+    open_lessonlist();    //打开lesslist
 }
 
 void Manager_MainWindow::on_action_edit_triggered() //编辑按钮
@@ -2268,8 +2249,6 @@ void Manager_MainWindow::on_action_deleteobject_triggered() //删除按钮
                     break;
                 }
             }
-            for(int i=0;i<lesnow.stuscore.count();i++)
-                qDebug()<<lesnow.stuscore[i].studentID<<lesnow.stuscore[i]._score;
             student_object->lessonID.remove_value(lesid);
             close_all();
             open_student();

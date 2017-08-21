@@ -1,9 +1,5 @@
 #include "mainwindow_teacher.h"
 #include "ui_mainwindow_teacher.h"
-#include<QDebug>
-#include<QLineEdit>
-#include<QMessageBox>
-#include"dialog_setsort.h"
 
 #define row_height 30
 #define top_height 50
@@ -96,7 +92,7 @@ void MainWindow_Teacher::open_lesson_file() //打开所有课程的文件
     fin.read((char*)(&count),4);
     for(int i=0;i<count;i++)
     {
-        fin.read((char*)(&fileid),sizeof(long));qDebug()<<fileid;
+        fin.read((char*)(&fileid),sizeof(long));
         ostringstream *os=new ostringstream;
         *os<<fileid;
         QString  s=QString::fromStdString(os->str());
@@ -104,7 +100,7 @@ void MainWindow_Teacher::open_lesson_file() //打开所有课程的文件
         finles.open(filename.toStdString(),ios_base::in);
         char* name;
         int size;
-        finles.read((char*)(&size),4);qDebug()<<size;
+        finles.read((char*)(&size),4);
         name=new char[size+1];
         finles.read(name,size);
         name[size]='\0';
@@ -125,7 +121,6 @@ void MainWindow_Teacher::open_lesson_file() //打开所有课程的文件
             finles.read((char*)(&scores),sizeof(int));
             lesson[i].stuscore.add(score(stuid,scores));
         }
-        qDebug()<<"asdasd"<<lesson[i].ID()<<lesson[i].name()<<lesson[i].credit()<<lesson[i].teacherID();
         finles.close();
         delete []name;
     }
@@ -168,7 +163,6 @@ void MainWindow_Teacher::open_student_file() //打开所有学生的文件
             finstu.read((char*)(&lessonid),sizeof(long));
             student[i].lessonID.add(lessonid);
         }
-        //qDebug()<<student[i].ID()<<student[i].name()<<student[i].sex();
         finstu.close();
         delete []name;
     }
@@ -269,7 +263,7 @@ void MainWindow_Teacher::open_lesson() //显示某门课程的详细信息
         if(nowscore>=0)
         {
             count_havelevel++;
-            stuscore.add(nowscore);qDebug()<<nowscore<<lesson_object->stuscore[i].studentID;
+            stuscore.add(nowscore);
         }
         addrow_table_lesson(now.name(),now.ID(),nowscore,false);
         nowgpa=score_to_gpa(nowscore);

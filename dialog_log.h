@@ -2,6 +2,16 @@
 #define DIALOG_LOG_H
 
 #include <QDialog>
+#include<QMessageBox>
+#include<QValidator>
+#include<QRegExp>
+#include<sstream>
+#include<QDebug>
+#include<fstream>
+#include"mainwindow_student.h"
+#include"mainwindow_teacher.h"
+#include"manager_mainwindow.h"
+#include"dialog_help.h"
 
 namespace Ui {
 class Dialog_Log;

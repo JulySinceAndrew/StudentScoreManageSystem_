@@ -1,6 +1,5 @@
 #include"lesson.h"
 
-
 Lesson::Lesson(long id, QString _name, int c, long teacherid):object(_name,id),_teacherID(teacherid),_credit(c)
 {
 

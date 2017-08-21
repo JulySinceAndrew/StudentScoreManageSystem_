@@ -11,6 +11,11 @@
 #include<QLineEdit>
 #include<QCloseEvent>
 #include"dialog_log.h"
+#include<QDebug>
+#include<QLineEdit>
+#include<QMessageBox>
+#include"dialog_setsort.h"
+
 
 using std::ios_base;
 using std::fstream;

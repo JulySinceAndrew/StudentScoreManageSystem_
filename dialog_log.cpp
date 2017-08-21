@@ -1,15 +1,5 @@
 #include "dialog_log.h"
 #include "ui_dialog_log.h"
-#include<QMessageBox>
-#include<QValidator>
-#include<QRegExp>
-#include<sstream>
-#include<QDebug>
-#include<fstream>
-#include"mainwindow_student.h"
-#include"mainwindow_teacher.h"
-#include"manager_mainwindow.h"
-#include"dialog_help.h"
 
 using std::fstream;
 using std::ios_base;
@@ -155,7 +145,7 @@ void Dialog_Log::on_pushButton_log_clicked() //登录按钮
     password=new char[size+1];
     fin.read(password,size);
     password[size]='\0';
-    int inputsize=ui->lineedit_password->text().toStdString().size();qDebug()<<size<<inputsize;
+    int inputsize=ui->lineedit_password->text().toStdString().size();
     if(size!=inputsize)//密码位数错误
     {
         QMessageBox::warning(this,"密码错误！","您输入的账号或密码错误，请重新输入！",QMessageBox::Ok);
@@ -163,7 +153,7 @@ void Dialog_Log::on_pushButton_log_clicked() //登录按钮
     }
     const char* inputpassword=ui->lineedit_password->text().toStdString().c_str();
     for(int k=0;k<size+1;k++)
-    {qDebug()<<inputpassword[k]<<password[k];
+    {
         if(inputpassword[k]!=password[k])//密码错误
         {
             QMessageBox::warning(this,"密码错误！","您输入的账号或密码错误，请重新输入！",QMessageBox::Ok);

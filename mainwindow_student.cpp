@@ -1,12 +1,5 @@
 #include "mainwindow_student.h"
 #include "ui_mainwindow_student.h"
-#include"fstream"
-#include"sstream"
-#include<QLineEdit>
-#include<QComboBox>
-#include<QDebug>
-#include"dialog_setsort.h"
-#include<QMessageBox>
 
 extern bool sort_modal;
 extern long log_student_id;
@@ -101,7 +94,7 @@ void MainWindow_Student::open_lesson_file() //读入所有课程文件
     fin.read((char*)(&count),4);
     for(int i=0;i<count;i++)
     {
-        fin.read((char*)(&fileid),sizeof(long));qDebug()<<fileid;
+        fin.read((char*)(&fileid),sizeof(long));
         ostringstream *os=new ostringstream;
         *os<<fileid;
         QString  s=QString::fromStdString(os->str());
@@ -109,7 +102,7 @@ void MainWindow_Student::open_lesson_file() //读入所有课程文件
         finles.open(filename.toStdString(),ios_base::in);
         char* name;
         int size;
-        finles.read((char*)(&size),4);qDebug()<<size;
+        finles.read((char*)(&size),4);
         name=new char[size+1];
         finles.read(name,size);
         name[size]='\0';
@@ -130,7 +123,6 @@ void MainWindow_Student::open_lesson_file() //读入所有课程文件
             finles.read((char*)(&scores),sizeof(int));
             lesson[i].stuscore.add(score(stuid,scores));
         }
-        qDebug()<<"asdasd"<<lesson[i].ID()<<lesson[i].name()<<lesson[i].credit()<<lesson[i].teacherID();
         finles.close();
         delete []name;
     }
@@ -173,7 +165,6 @@ void MainWindow_Student::open_teacher_file() //读入所有教师文件
             finstu.read((char*)(&lessonid),sizeof(long));
             teacher[i].lessonID.add(lessonid);
         }
-        qDebug()<<teacher[i].ID()<<teacher[i].name()<<teacher[i].sex();
         finstu.close();
         delete []name;
     }
@@ -379,7 +370,7 @@ void MainWindow_Student::sort_les_score()//按课程成绩排序
 void MainWindow_Student::set_info(long id) //打开详细界面
 {
     ui->table_info1->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    ui->table_info2->setEditTriggers(QAbstractItemView::NoEditTriggers);qDebug()<<"debudao";
+    ui->table_info2->setEditTriggers(QAbstractItemView::NoEditTriggers);
     Lesson now=lesson(id);
     ui->table_info1->setItem(0,0,new QTableWidgetItem(now.name()));
     ui->table_info1->setItem(0,1,new QTableWidgetItem(long_to_qstr(now.ID())));

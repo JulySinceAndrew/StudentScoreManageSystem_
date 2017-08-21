@@ -22,6 +22,13 @@
 #include"vector_of.h"
 #include"dialog_setsort.h"
 #include"dialog_log.h"
+#include<fstream>
+#include<QFileDialog>
+#include<string>
+#include<QMessageBox>
+#include<sstream>
+#include<QValidator>
+#include<QRegExp>
 
 namespace Ui {
 class Manager_MainWindow;

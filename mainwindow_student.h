@@ -6,6 +6,13 @@
 #include"lesson.h"
 #include"vector_of.h"
 #include"dialog_log.h"
+#include"fstream"
+#include"sstream"
+#include<QLineEdit>
+#include<QComboBox>
+#include<QDebug>
+#include"dialog_setsort.h"
+#include<QMessageBox>
 
 namespace Ui {
 class MainWindow_Student;
